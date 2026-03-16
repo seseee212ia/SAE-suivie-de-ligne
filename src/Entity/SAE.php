@@ -6,7 +6,9 @@ use App\Repository\SAERepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: SAERepository::class)]
+#[ApiResource]
 class SAE
 {
     #[ORM\Id]
