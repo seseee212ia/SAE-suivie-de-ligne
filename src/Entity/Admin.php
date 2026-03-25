@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -21,8 +22,8 @@ use ApiPlatform\Metadata\GetCollection;
     normalizationContext: ['groups' => ['admin:read']],
     denormalizationContext: ['groups' => ['admin:write']],
     operations: [
-        new Get(security: "is_granted('ROLE_ADMIN')"),
-        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
+        new Get(),
+        new GetCollection(),
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
         new Delete(security: "is_granted('ROLE_ADMIN')")
@@ -30,15 +31,15 @@ use ApiPlatform\Metadata\GetCollection;
 )]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[Groups(['admin:read'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['admin:read'])]
     private ?int $id = null;
 
     #[Groups(['admin:read', 'admin:write'])]
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le nom d\'utilisateur est obligatoire')]
     private ?string $user = null;
 
     /**
@@ -52,7 +53,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
     private ?string $password = null;
 
     public function getId(): ?int

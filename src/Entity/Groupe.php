@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
@@ -20,9 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(),
         new GetCollection(),
-        new Post(security: "is_granted('ROLE_ENSEIGNANT')"),
-        new Put(security: "is_granted('ROLE_ENSEIGNANT')"),
-        new Delete(security: "is_granted('ROLE_ENSEIGNANT')")
+        new Post(security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_ETUDIANT')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
     ]
 )]
 class Groupe
@@ -30,15 +31,17 @@ class Groupe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['groupe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['groupe:read', 'groupe:write'])]
+    #[Assert\NotBlank(message: 'Le nom du groupe est obligatoire')]
+    #[Assert\Length(min: 2, minMessage: 'Le nom doit faire au moins 2 caractères')]
     private ?string $nom = null;
 
-    /**
-     * @var Collection<int, Etudiants>
-     */
     #[ORM\ManyToMany(targetEntity: Etudiants::class)]
+    #[Groups(['groupe:read', 'groupe:write'])]
     private Collection $etudiants;
 
     public function __construct()
@@ -59,7 +62,6 @@ class Groupe
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -76,14 +78,12 @@ class Groupe
         if (!$this->etudiants->contains($etudiant)) {
             $this->etudiants->add($etudiant);
         }
-
         return $this;
     }
 
     public function removeEtudiant(Etudiants $etudiant): static
     {
         $this->etudiants->removeElement($etudiant);
-
         return $this;
     }
 }

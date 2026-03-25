@@ -11,38 +11,30 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use Symfony\Component\HttpFoundation\File\File; 
-use Vich\UploaderBundle\Mapping\Annotation as Vich; 
-use ApiPlatform\Metadata\ApiProperty; 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: RenduRepository::class)]
-#[ApiFilter(SearchFilter::class, properties: [
-    'nom' => 'partial',
-    'etudiant.nom' => 'partial',
-    'sae.semestre' => 'exact'
-])]
 #[ApiResource(
     normalizationContext: ['groups' => ['rendu:read']],
     denormalizationContext: ['groups' => ['rendu:write']],
-    operations: [ 
-        new \ApiPlatform\Metadata\Get(), 
-        new \ApiPlatform\Metadata\GetCollection(), 
-        new \ApiPlatform\Metadata\Post( 
+    operations: [
+        new \ApiPlatform\Metadata\GetCollection(),
+        new \ApiPlatform\Metadata\Get(),
+        new \ApiPlatform\Metadata\Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
-            security: "is_granted('ROLE_ETUDIANT')"),
-        new Put(security: "is_granted('ROLE_ETUDIANT')"),
-        new Delete(security: "is_granted('ROLE_ETUDIANT')")
-    ] 
+            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
+        ),
+        new \ApiPlatform\Metadata\Put(
+            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
+        ),
+        new \ApiPlatform\Metadata\Delete(
+            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
+        )
+    ]
 )]
- class Rendu
+#[Vich\Uploadable]
+class Rendu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -52,25 +44,25 @@ use ApiPlatform\Metadata\Delete;
 
     #[ORM\Column(length: 255)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le nom du fichier est obligatoire')]
+    #[Assert\Length(min: 3, minMessage: 'Le nom du fichier doit faire au moins 3 caractères')]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank]
-    #[Assert\LessThan(propertyPath: 'dateDebut')]
-    private ?\DateTimeImmutable $date = null;
+    #[Assert\NotBlank(message: 'La date est obligatoire')]
+    private ?\DateTime $date = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotNull]
+    #[Assert\NotNull(message: 'Une SAE doit obligatoirement être attachée')]
     private ?Sae $sae = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['rendu:read'])]
-    #[Assert\NotNull]
+    #[Groups(['rendu:read', 'rendu:write'])]
+    #[Assert\NotNull(message: 'Un étudiant (auteur) doit obligatoirement être attaché')]
     private ?Etudiants $etudiant = null;
 
     #[ORM\ManyToOne]
@@ -78,16 +70,16 @@ use ApiPlatform\Metadata\Delete;
     #[Groups(['rendu:read', 'rendu:write'])]
     private ?Groupe $groupe = null;
 
-    #[Vich\UploadableField(mapping: 'rendus', fileNameProperty: 'fileName')] 
-    #[Groups(['rendu:write'])] 
-    public ?File $file = null; 
- 
-    #[ORM\Column(nullable: true)] 
-    #[Groups(['rendu:read'])] 
-    private ?string $fileName = null; 
+    #[Vich\UploadableField(mapping: 'rendus', fileNameProperty: 'fileName')]
+    #[Groups(['rendu:write'])]
+    public ?File $file = null;
 
-    #[ORM\Column(nullable: true)] 
-    private ?\DateTimeImmutable $updatedAt = null; 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['rendu:read'])]
+    private ?string $fileName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -106,12 +98,12 @@ use ApiPlatform\Metadata\Delete;
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function setDate(\DateTime $date): static
     {
         $this->date = $date;
 
@@ -150,30 +142,30 @@ use ApiPlatform\Metadata\Delete;
     public function setGroupe(?Groupe $groupe): static
     {
         $this->groupe = $groupe;
+
         return $this;
     }
 
-    public function setFile(?File $file = null): void 
-    { 
-        $this->file = $file; 
-        if (null !== $file) { 
-            $this->updatedAt = new \DateTimeImmutable(); 
-        } 
-    } 
+    public function setFile(?File $file = null): void
+    {
+        $this->file = $file;
+        if (null !== $file) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
 
-    public function getFile(): ?File 
-    { 
-        return $this->file; 
-    } 
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
 
-    public function getFileName(): ?string 
-    { 
-        return $this->fileName; 
-    } 
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
 
-    public function setFileName(?string $fileName): void 
-    { 
-        $this->fileName = $fileName; 
-    } 
+    public function setFileName(?string $fileName): void
+    {
+        $this->fileName = $fileName;
+    }
 }
-
