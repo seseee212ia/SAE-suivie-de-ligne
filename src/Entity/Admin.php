@@ -18,9 +18,11 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Table(name: '`admin`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER', fields: ['user'])]
 #[ApiResource(
+    normalizationContext: ['groups' => ['admin:read']],
+    denormalizationContext: ['groups' => ['admin:write']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('ROLE_ADMIN')"),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
         new Delete(security: "is_granted('ROLE_ADMIN')")
@@ -28,27 +30,29 @@ use ApiPlatform\Metadata\GetCollection;
 )]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[Groups(['admin:read'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read'])]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['admin:read', 'admin:write'])]
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank]
     private ?string $user = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['admin:read'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     public function getId(): ?int

@@ -4,31 +4,51 @@ namespace App\Entity;
 
 use App\Repository\EtudiantsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\Promotion;
+use App\Enum\Specialite;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 
 #[ORM\Entity(repositoryClass: EtudiantsRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NUM_ETUDIANT', fields: ['numEtudiant'])]
-#[ApiResource(normalizationContext: ['groups' => ['user:read']])]
+#[ApiResource(
+    normalizationContext: ['groups' => ['etudiant:read']],
+    denormalizationContext: ['groups' => ['etudiant:write']],
+        operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ]
+)]
 class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[Groups(['user:read'])]
+    #[Groups(['etudiant:read'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
-    #[ORM\Column(length: 180)]
-    private ?string $numEtudiant = null;
+    #[Groups(['etudiant:read', 'etudiant:write'])]
+    #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 10000000, max: 99999999, notInRangeMessage: 'Le numéro étudiant doit contenir 8 chiffres')]
+    private ?int $numEtudiant = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[Groups(['user:read'])]
+    #[Groups(['etudiant:read'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -36,35 +56,39 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
-    #[Groups(['user:read'])]
-    #[ORM\Column]
-    private ?int $promotion = null;
+    #[Groups(['etudiant:read', 'etudiant:write'])]
+    #[ORM\Column(enumType: Promotion::class)]
+    #[Assert\NotBlank]
+    private ?Promotion $promotion = null;
 
-    #[Groups(['user:read'])]
-    #[ORM\Column(length: 255)]
-    private ?string $specialite = null;
+    #[Groups(['etudiant:read', 'etudiant:write'])]
+    #[ORM\Column(enumType: Specialite::class, nullable: true)]
+    private ?Specialite $specialite = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNumEtudiant(): ?string
+    public function getNumEtudiant(): ?int
     {
         return $this->numEtudiant;
     }
 
-    public function setNumEtudiant(string $numEtudiant): static
+    public function setNumEtudiant(int $numEtudiant): static
     {
         $this->numEtudiant = $numEtudiant;
 
@@ -124,7 +148,7 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }
@@ -159,24 +183,24 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPromotion(): ?int
+    public function getPromotion(): Promotion
     {
         return $this->promotion;
     }
 
-    public function setPromotion(int $promotion): static
+    public function setPromotion(Promotion $promotion): static
     {
         $this->promotion = $promotion;
 
         return $this;
     }
 
-    public function getSpecialite(): ?string
+    public function getSpecialite(): Specialite
     {
         return $this->specialite;
     }
 
-    public function setSpecialite(string $specialite): static
+    public function setSpecialite(Specialite $specialite): static
     {
         $this->specialite = $specialite;
 
