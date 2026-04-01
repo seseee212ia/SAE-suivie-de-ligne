@@ -20,6 +20,7 @@ class RenduController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form->get('file')->getData();
+            $uploadedFileImg = $form->get('fileImg')->getData();
 
             if ($uploadedFile) {
                 $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -33,7 +34,6 @@ class RenduController extends AbstractController
 
                     $rendu->setFileName($newFilename);
                     $rendu->setFile($uploadedFile);
-
                 } catch (FileException $e) {
                     throw new BadRequestHttpException('Erreur lors de l\'upload du rendu.');
                 }
@@ -42,6 +42,36 @@ class RenduController extends AbstractController
             return $rendu;
         }
 
-        throw new BadRequestHttpException('Données invalides ou fichier manquant. Vérifiez vos champs.');
+        throw new BadRequestHttpException('Données invalides ou fichier manquant.');
+    
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('file')->getData();
+            $uploadedFileImg = $form->get('fileImg')->getData();
+
+            if ($uploadedFileImg) {
+                $originalFilenameImg = pathinfo($uploadedFileImg->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilenameImg = $originalFilenameImg . '-' . uniqid() . '.' . $uploadedFileImg->guessExtension();
+
+                try {
+                    $uploadedFileImg->move(
+                        $this->getParameter('rendus_directory'),
+                        $newFilenameImg
+                    );
+
+                    $rendu->setFileName($newFilenameImg);
+                    $rendu->setFile($uploadedFileImg);
+
+                } catch (FileException $e) {
+                    throw new BadRequestHttpException('Erreur lors de l\'upload du rendu.');
+                    }
+            }
+
+            return $rendu;
+        }
+
+        throw new BadRequestHttpException('Données invalides ou fichier manquant.');
     }
 }
+ 
