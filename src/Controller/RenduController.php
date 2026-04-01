@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Rendu;
@@ -11,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 
 #[AsController]
-class UploadRenduAction extends AbstractController
+class RenduController extends AbstractController
 {
     public function __invoke(Request $request): Rendu
     {
@@ -31,11 +30,13 @@ class UploadRenduAction extends AbstractController
                         $this->getParameter('rendus_directory'),
                         $newFilename
                     );
+
+                    $rendu->setFileName($newFilename);
+                    $rendu->setFile($uploadedFile);
+
                 } catch (FileException $e) {
                     throw new BadRequestHttpException('Erreur lors de l\'upload du rendu.');
                 }
-                
-                $rendu->setFileName($newFilename);
             }
 
             return $rendu;
