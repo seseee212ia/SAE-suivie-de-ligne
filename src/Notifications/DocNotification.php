@@ -5,7 +5,7 @@ namespace App\Notifications;
 use App\Notifications\DocNotification;
 use App\Entity\Documents;
 use App\Entity\Sae;
-use App\Entity\Notification;
+use App\Entity\Notifications;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
