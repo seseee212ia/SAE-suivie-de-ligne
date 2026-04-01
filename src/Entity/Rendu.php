@@ -32,9 +32,12 @@ use ApiPlatform\Metadata\Delete;
     normalizationContext: ['groups' => ['rendu:read']],
     denormalizationContext: ['groups' => ['rendu:write']],
     operations: [ 
-        new Get(), 
-        new GetCollection(), 
-        new Post( 
+        new \ApiPlatform\Metadata\Get(), 
+        new \ApiPlatform\Metadata\GetCollection(), 
+        new \ApiPlatform\Metadata\Post( 
+            controller: \App\Controller\RenduController::class,
+            deserialize: false,
+            inputFormats: ['multipart' => ['multipart/form-data']],
             security: "is_granted('ROLE_ETUDIANT')"),
         new Put(security: "is_granted('ROLE_ETUDIANT')"),
         new Delete(security: "is_granted('ROLE_ETUDIANT')")
@@ -56,7 +59,8 @@ use ApiPlatform\Metadata\Delete;
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Groups(['rendu:read', 'rendu:write'])]
     #[Assert\NotBlank]
-    #[Assert\LessThan(propertyPath: 'dateDebut')]
+    #[Assert\Expression(
+        "this.getDate() < this.getSae().getDateDebut()")]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\ManyToOne]
@@ -76,18 +80,18 @@ use ApiPlatform\Metadata\Delete;
     #[Groups(['rendu:read', 'rendu:write'])]
     private ?Groupe $groupe = null;
 
+    #[Groups(['rendu:write'])] 
+    public ?File $file = null; 
+ 
+    #[ORM\Column(nullable: true)] 
+    #[Groups(['rendu:read'])] 
+    private ?string $fileName = null; 
+
     #[ORM\Column(nullable: true)] 
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
-
-    #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
-    private ?string $img = null; 
+    private ?string $description = null; 
 
     public function getId(): ?int
     {
@@ -153,6 +157,29 @@ use ApiPlatform\Metadata\Delete;
         return $this;
     }
 
+    public function setFile(?File $file = null): void 
+    { 
+        $this->file = $file; 
+        if (null !== $file) { 
+            $this->updatedAt = new \DateTimeImmutable(); 
+        } 
+    } 
+
+    public function getFile(): ?File 
+    { 
+        return $this->file; 
+    } 
+
+    public function getFileName(): ?string 
+    { 
+        return $this->fileName; 
+    } 
+
+    public function setFileName(?string $fileName): void 
+    { 
+        $this->fileName = $fileName; 
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -161,18 +188,6 @@ use ApiPlatform\Metadata\Delete;
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImg(): ?string
-    {
-        return $this->img;
-    }
-
-    public function setImg(string $img): static
-    {
-        $this->img = $img;
 
         return $this;
     } 
