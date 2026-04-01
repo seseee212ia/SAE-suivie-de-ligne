@@ -169,10 +169,14 @@
         </section>
 
         <section class="add-sae-section">
-          <h3>Ajouter SAE</h3>
           <form @submit.prevent="ajouterSAE" class="add-sae-form">
+            <div class="add-sae-header">
+              <h3>Ajouter SAE</h3>
+              <button type="submit" class="btn-add-circle" aria-label="Ajouter la SAE">+</button>
+            </div>
+
             <div class="form-row">
-              <input v-model="nouvelleSae.titre" type="text" placeholder="Intitulé..." class="input-title" required aria-label="Intitulé de la SAE" />
+              <input v-model="nouvelleSae.titre" type="text" placeholder="Ex: SAE 301 - Intitulé..." class="input-title" required aria-label="Intitulé de la SAE" />
               
               <select v-model="nouvelleSae.semestre" class="input-select" aria-label="Semestre">
                 <option value="S1">Semestre 1</option>
@@ -182,11 +186,25 @@
                 <option value="S5">Semestre 5</option>
                 <option value="S6">Semestre 6</option>
               </select>
+
+              <select v-model="nouvelleSae.groupe" class="input-select" aria-label="Groupe assigné">
+                <option value="A">Groupe A</option>
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B">Groupe B</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
               
-              <input v-model="nouvelleSae.debut" type="date" title="Date de début" class="input-date" required aria-label="Date de début" />
-              <input v-model="nouvelleSae.fin" type="date" title="Date de fin" class="input-date" required aria-label="Date de fin" />
+              <div class="date-group">
+                <span class="date-label">Date de début</span>
+                <input v-model="nouvelleSae.debut" type="date" title="Date de début" class="input-date" required aria-label="Date de début" />
+              </div>
               
-              <button type="submit" class="btn-add-circle" aria-label="Ajouter la SAE">+</button>
+              <div class="date-group">
+                <span class="date-label">Date de fin</span>
+                <input v-model="nouvelleSae.fin" type="date" title="Date de fin" class="input-date" required aria-label="Date de fin" />
+              </div>
             </div>
             
             <textarea v-model="nouvelleSae.description" placeholder="Description..." class="input-desc" aria-label="Description de la SAE"></textarea>
@@ -211,9 +229,12 @@ const listMois = ref([]);
 const moisSelectionne = ref('');
 const jourSelectionne = ref(1);
 
-// Noms des mois globaux pour la date du jour
+// Configuration partagée globale (dates)
 const nomsMoisGlobaux = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-const moisActuelString = nomsMoisGlobaux[new Date().getMonth()];
+const dateAujourdhui = new Date();
+const moisActuelString = nomsMoisGlobaux[dateAujourdhui.getMonth()];
+const jourActuel = dateAujourdhui.getDate();
+const moisActuelAbrege = moisActuelString.substring(0, 3) + ' ' + jourActuel;
 
 const genererListeMois = () => {
   const dateInitiale = new Date();
@@ -242,11 +263,40 @@ const joursDuMois = computed(() => {
 const selectionnerMois = (mois) => { moisSelectionne.value = mois; };
 const selectionnerJour = (jour) => { jourSelectionne.value = jour; };
 
+// --- BASE DE DONNÉES SAE PARTAGÉE (LocalStorage) ---
+const defaultSAEs = [
+  { id: 1, titre: 'SAE 301 - Projet Web', semestre: 'S1', groupe: 'A1', mois: moisActuelString, jour: jourActuel, date: moisActuelAbrege, color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 8, description: "Réaliser une application web full-stack avec framework front et back, API REST.", filiere: "Développement Web", consignes: "Fournir le code source complet sur un dépôt Git.\n\nLa documentation technique doit inclure le diagramme de base de données.\n\nLe rendu est individuel." },
+  { id: 2, titre: 'SAE 303 - Design UX/UI', semestre: 'S1', groupe: 'A2', mois: moisActuelString, jour: jourActuel, date: 'Avr 15', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2, description: "Concevoir l'interface utilisateur d'une application mobile en respectant les principes UX.", filiere: "Création Numérique", consignes: "Le livrable doit inclure le lien du prototype interactif Figma avec tous les écrans connectés. L'UI Kit doit être fourni." },
+  { id: 3, titre: 'SAE 302 - Communication', semestre: 'S2', groupe: 'B1', mois: moisActuelString, jour: jourActuel, date: 'Mai 02', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 5, description: "Établir une stratégie de communication digitale pour un lancement de produit.", filiere: "Communication", consignes: "Rédiger un dossier PDF de 15 pages minimum incluant le budget et le planning de publication. Un support de présentation oral est requis." },
+  { id: 4, titre: 'SAE 401 - Audiovisuel', semestre: 'S3', groupe: 'B2', mois: 'Novembre', jour: 12, date: 'Nov 12', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 1 },
+  { id: 5, titre: 'SAE 201 - Intégration', semestre: 'S1', groupe: 'A1', mois: 'Avril', jour: 30, date: 'Avr 30', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 9 },
+  { id: 6, titre: 'SAE 402 - Développement Back', semestre: 'S2', groupe: 'B1', mois: 'Decembre', jour: 15, date: 'Dec 15', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 0 },
+  { id: 7, titre: 'SAE 304 - Stratégie Marketing', semestre: 'S3', groupe: 'A2', mois: 'Juin', jour: 10, date: 'Juin 10', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 4 },
+  { id: 8, titre: 'SAE 403 - Motion Design', semestre: 'S4', groupe: 'B2', mois: 'Janvier', jour: 20, date: 'Jan 20', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2 },
+  { id: 9, titre: 'SAE 202 - Gestion de Projet', semestre: 'S4', groupe: 'A', mois: 'Juillet', jour: 5, date: 'Juil 05', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 6 },
+  { id: 10, titre: 'SAE 203 - Ergonomie', semestre: 'S2', groupe: 'B', mois: 'Fevrier', jour: 28, date: 'Fev 28', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 3 },
+  { id: 11, titre: 'SAE 501 - Hébergement Web', semestre: 'S5', groupe: 'A1', mois: 'Septembre', jour: 1, date: 'Sep 01', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 1 }
+];
+
+const loadSAEs = () => {
+  const stored = localStorage.getItem('mmi_data_sae_v2');
+  if (stored) return JSON.parse(stored);
+  localStorage.setItem('mmi_data_sae_v2', JSON.stringify(defaultSAEs));
+  return defaultSAEs;
+};
+
+const saveSAEs = (data) => {
+  localStorage.setItem('mmi_data_sae_v2', JSON.stringify(data));
+};
+
+const listeSAE_BDD = ref([]);
+
 onMounted(() => {
   const dateActuelle = new Date();
   listMois.value = genererListeMois();
   moisSelectionne.value = moisActuelString;
   jourSelectionne.value = dateActuelle.getDate();
+  listeSAE_BDD.value = loadSAEs();
 });
 
 const moisAbrege = (mois) => {
@@ -254,37 +304,57 @@ const moisAbrege = (mois) => {
   return mois.substring(0, 3); // Nov, Dec, etc.
 };
 
-// --- BASE DE DONNÉES SAE ---
-// CORRECTION : Les IDs et les couleurs ont été alignés avec la page de détails !
-const listeSAE_BDD = ref([
-  { id: 1, mois: moisActuelString, jour: 28, titre: 'SAE 301 - Projet Web', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 8 },
-  { id: 2, mois: moisActuelString, jour: 15, titre: 'SAE 303 - Design UI/UX', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 5 },
-  { id: 3, mois: moisActuelString, jour: 30, titre: 'SAE 302 - Communication', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 3 },
-  { id: 4, mois: 'Novembre', jour: 12, titre: 'SAE 401 - Audiovisuel', color: 'linear-gradient(135deg, #10b981, #059669)', notifs: 2 }
-]);
-
+// --- FILTRAGE SAE ---
 const saesFiltrees = computed(() => {
   return listeSAE_BDD.value.filter(sae => sae.mois === moisSelectionne.value);
 });
 
 // --- AJOUT SAE ---
-const nouvelleSae = ref({ titre: '', semestre: 'S1', debut: '', fin: '', description: '' });
+const nouvelleSae = ref({ titre: '', semestre: 'S1', groupe: 'A', debut: '', fin: '', description: '' });
 const messageConfirmation = ref(false);
 
 const ajouterSAE = () => {
+  let moisSae = moisSelectionne.value;
+  let jourSae = jourSelectionne.value;
+  let dateAbregee = moisAbrege(moisSae) + ' ' + jourSae;
+
+  if (nouvelleSae.value.debut) {
+    const objDate = new Date(nouvelleSae.value.debut);
+    if (!isNaN(objDate)) {
+      moisSae = nomsMoisGlobaux[objDate.getMonth()];
+      jourSae = objDate.getDate();
+      dateAbregee = moisAbrege(moisSae) + ' ' + jourSae;
+    }
+  }
+
+  let dateFinaleFull = "À définir";
+  if (nouvelleSae.value.fin) {
+      const finDate = new Date(nouvelleSae.value.fin);
+      if(!isNaN(finDate)) {
+          dateFinaleFull = `${finDate.getDate()} ${nomsMoisGlobaux[finDate.getMonth()]} ${finDate.getFullYear()}`;
+      }
+  }
+
   listeSAE_BDD.value.push({ 
     id: Date.now(), 
-    mois: moisSelectionne.value, 
-    jour: jourSelectionne.value,
+    mois: moisSae, 
+    jour: jourSae,
+    date: dateAbregee,
+    dateEcheance: dateFinaleFull, 
+    semestre: nouvelleSae.value.semestre,
+    groupe: nouvelleSae.value.groupe,
     titre: nouvelleSae.value.titre || 'Nouvelle SAE',
+    description: nouvelleSae.value.description || "Aucune description fournie.", 
     color: '#f59e0b', 
     notifs: 0
   });
+
+  saveSAEs(listeSAE_BDD.value);
   messageConfirmation.value = true;
   
   setTimeout(() => {
     messageConfirmation.value = false;
-    nouvelleSae.value = { titre: '', semestre: 'S1', debut: '', fin: '', description: '' };
+    nouvelleSae.value = { titre: '', semestre: 'S1', groupe: 'A', debut: '', fin: '', description: '' };
   }, 3000);
 };
 
@@ -347,7 +417,6 @@ const toggleModeSombre = () => {
   document.body.classList.toggle('theme-sombre');
 };
 
-// Texte descriptif amélioré pour la synthèse vocale
 watch(() => accessibilite.value.voix, (estActive) => {
   if (estActive) {
     const nbSae = saesFiltrees.value.length;
@@ -374,7 +443,7 @@ watch(() => accessibilite.value.voix, (estActive) => {
 
     const utterance = new SpeechSynthesisUtterance(texteALire);
     utterance.lang = 'fr-FR'; 
-    utterance.rate = 0.95; // Un peu plus lent pour la clarté
+    utterance.rate = 0.95; 
     window.speechSynthesis.speak(utterance);
   } else {
     window.speechSynthesis.cancel();
@@ -382,211 +451,4 @@ watch(() => accessibilite.value.voix, (estActive) => {
 });
 </script>
 
-<style scoped>
-.dashboard-layout { display: flex; height: 100vh; width: 100vw; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
-.main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
-
-/* Header */
-.top-header { display: flex; justify-content: space-between; padding: 0 2rem; background: #B4D4FE; align-items: center; border-bottom: 1px solid #e5e7eb; height: 80px; box-sizing: border-box;}
-.top-icons { display: flex; gap: 15px; align-items: center; }
-.icon-btn { background: none; border: none; cursor: pointer; color: #6b7280; padding: 5px; display: flex; align-items: center; justify-content: center; }
-.svg-icon { width: 22px; height: 22px; transition: transform 0.2s; }
-.svg-icon:hover { transform: scale(1.1); }
-.user-profile { font-weight: 600; color: #1e40af; margin-left: 20px;}
-.clickable { cursor: pointer; transition: color 0.2s; }
-.clickable:hover { color: #3b82f6; }
-
-/* POP-UPS GÉNÉRAUX */
-.popup-menu { position: absolute; top: 75px; right: 20px; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 340px; z-index: 100; overflow: hidden;}
-.standard-popup { padding: 1.5rem; }
-.standard-popup h3 { margin-top: 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.8rem; font-size: 1.1rem;}
-
-/* DESIGN NOTIFICATIONS & MESSAGES */
-.notif-list { padding-left: 0; list-style: none; margin: 0;}
-.notif-item { display: flex; align-items: flex-start; gap: 12px; padding: 0.8rem 0; border-bottom: 1px solid #f3f4f6; }
-.notif-item:last-child { border-bottom: none; padding-bottom: 0;}
-.notif-icon { font-size: 1.1rem; }
-.notif-text { font-size: 0.9rem; color: #374151; line-height: 1.4;}
-
-/* DESIGN PARAMÈTRES & PROFIL */
-.action-list { list-style: none; padding: 0; margin: 0;}
-.action-item { padding: 0.8rem 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.95rem; cursor: pointer; transition: 0.2s;}
-.action-item:hover { background-color: #f8fafc; color: #3b82f6; }
-.action-item:last-child { border-bottom: none; }
-.text-red { color: #ef4444; font-weight: 600;}
-.text-red:hover { background-color: #fef2f2; color: #dc2626; }
-
-/* POP-UP ACCESSIBILITÉ */
-.accessibilite-menu { width: 340px; }
-.popup-header-black { background-color: black; color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem; }
-.popup-header-black h3 { margin: 0; font-size: 1.1rem; font-weight: normal;}
-.close-btn-white { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
-.popup-body { padding: 0.5rem 0; }
-.feature-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #f3f4f6; }
-.zoom-feature { flex-direction: column; align-items: flex-start; gap: 15px; }
-.zoom-buttons { display: flex; gap: 5px; }
-.feature-label { display: flex; align-items: center; gap: 12px; font-size: 1rem; color: #374151; font-weight: 500;}
-.icon-wrapper { display: flex; align-items: center; justify-content: center; width: 24px; font-size: 1.2rem; }
-.font-bold { font-weight: bold; font-family: serif; }
-
-.btn-toggle-action { background: #e5e7eb; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: 0.2s;}
-.btn-toggle-action:hover { background: #d1d5db; }
-.active-zoom { background: #3b82f6 !important; color: white; border-color: #3b82f6; }
-.reset-btn { background: #ef4444 !important; color: white; }
-.reset-btn:hover { background: #dc2626 !important; }
-
-/* MODAL MOT DE PASSE */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.modal-content-center { background: white; padding: 2rem; border-radius: 12px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.modal-content-center h3 { margin-top: 0; color: #111827; margin-bottom: 1.5rem;}
-.form-group-modal { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;}
-.form-group-modal label { font-size: 0.9rem; color: #374151;}
-.input-full { width: 100%; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;}
-.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;}
-.btn-cancel { background: transparent; border: none; color: #6b7280; cursor: pointer;}
-.btn-confirm { background: #3b82f6; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer;}
-
-/* Switch */
-.switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
-.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
-input:checked + .slider { background-color: #2196F3; }
-input:checked + .slider:before { transform: translateX(20px); }
-.slider.round { border-radius: 34px; }
-.slider.round:before { border-radius: 50%; }
-
-/* CONTENU DE LA PAGE */
-.content-area { padding: 2rem 3rem; overflow-y: auto; width: 100%; box-sizing: border-box;}
-.breadcrumb { font-size: 0.8rem; color: #6b7280; font-weight: normal; margin-left: 10px;}
-.divider { border: 0; height: 1px; background: #d1d5db; margin-bottom: 2rem; }
-
-/* CALENDRIER */
-.timeline { margin-bottom: 3rem; width: 100%; }
-
-.calendar-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem; 
-}
-
-.months-container, .days-container {
-  width: 100%;
-}
-
-.months, .days { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 1rem; 
-  align-items: center; 
-}
-
-.months { font-weight: 600; color: #9ca3af; font-size: 0.9rem; }
-.month-pill { background: none; border: none; padding: 0.4rem 0.2rem; margin-right: 0.5rem; transition: 0.2s; border-bottom: 2px solid transparent; font-family: inherit;}
-.active-month { color: #312e81; border-bottom: 2px solid #312e81; }
-
-.days { color: #6b7280; font-size: 0.9rem; }
-.day-circle { background: none; font-family: inherit; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid transparent; transition: 0.2s; flex-shrink: 0;}
-.active-day { color: #312e81; font-weight: bold; border: 2px solid #312e81; background: transparent;}
-
-/* GRILLE SAE */
-h2 { font-size: 1.2rem; color: #111827; margin-bottom: 1rem;}
-.sae-grid { display: flex; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
-/* Modifications ici: ajout du pointer, de la transition et de l'effet de survol */
-.sae-card { background: white; padding: 1rem; border-radius: 12px; width: 220px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #f3f4f6; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;}
-.sae-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-.sae-title { font-size: 1rem; font-weight: 600; margin: 0 0 10px 0; color: #1f2937; } /* Ajout du style pour le titre SAE */
-.sae-gradient { height: 130px; border-radius: 8px; margin-bottom: 1rem; }
-.sae-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; border-top: 1px solid #f3f4f6; padding-top: 10px;}
-.no-sae { color: #6b7280; font-style: italic; }
-
-/* FORMULAIRE AJOUT SAE */
-.add-sae-section { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 900px; margin-bottom: 2rem;}
-.add-sae-section h3 { margin-top: 0; font-size: 1.1rem; color: #111827; margin-bottom: 1.5rem;}
-.form-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;}
-.input-title { flex: 1; min-width: 200px; padding: 0.8rem 1rem; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Inter', sans-serif;}
-.input-select { padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 8px; background: white; cursor: pointer; color: #111827;} 
-.input-date { padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 8px; color: #4b5563;}
-.btn-add-circle { background-color: #3b82f6; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);}
-.btn-add-circle:hover { background-color: #2563eb; transform: scale(1.05);}
-.input-desc { width: 100%; box-sizing: border-box; padding: 1rem; border: 1px solid #d1d5db; border-radius: 8px; min-height: 120px; font-family: 'Inter', sans-serif; resize: vertical;}
-.success-msg { color: #059669; background: #d1fae5; padding: 0.8rem; border-radius: 6px; margin-top: 1rem; font-weight: 500;}
-
-/* ==========================================================
-   MODE SOMBRE GLOBAL
-   ========================================================== */
-:global(body.theme-sombre) { background-color: #111827 !important; color: #ffffff !important; }
-:global(body.theme-sombre .dashboard-layout) { background-color: #111827 !important; color: #ffffff !important; }
-:global(body.theme-sombre .top-header) { background: #1f2937 !important; border-bottom-color: #374151 !important; }
-
-:global(body.theme-sombre aside),
-:global(body.theme-sombre .sidebar-container),
-:global(body.theme-sombre .sidebar),
-:global(body.theme-sombre .sidebar-menu) {
-  background-color: #111827 !important;
-  border-right-color: #374151 !important;
-}
-:global(body.theme-sombre aside > div),
-:global(body.theme-sombre .sidebar > div),
-:global(body.theme-sombre .sidebar-container > div) {
-  background-color: #111827 !important;
-}
-
-:global(body.theme-sombre .sae-card), 
-:global(body.theme-sombre .add-sae-section), 
-:global(body.theme-sombre .popup-menu),
-:global(body.theme-sombre .modal-content-center) { 
-  background: #1f2937 !important; border-color: #374151 !important; color: #ffffff !important; 
-}
-
-:global(body.theme-sombre h1), 
-:global(body.theme-sombre h2), 
-:global(body.theme-sombre h3),
-:global(body.theme-sombre span),
-:global(body.theme-sombre p),
-:global(body.theme-sombre div:not(.sae-gradient)), 
-:global(body.theme-sombre li),
-:global(body.theme-sombre a),
-:global(body.theme-sombre button) { color: #ffffff !important; }
-
-:global(body.theme-sombre input:not([type="checkbox"])), 
-:global(body.theme-sombre select), 
-:global(body.theme-sombre textarea) { 
-  background-color: #374151 !important; 
-  color: #ffffff !important; 
-  border-color: #4b5563 !important; 
-}
-
-:global(body.theme-sombre select option) {
-  background-color: #374151 !important; color: #ffffff !important;
-}
-
-:global(body.theme-sombre input::placeholder), 
-:global(body.theme-sombre textarea::placeholder) { color: #ffffff !important; }
-
-:global(body.theme-sombre .feature-item), 
-:global(body.theme-sombre .notif-item), 
-:global(body.theme-sombre .action-item),
-:global(body.theme-sombre .sae-info) { border-color: #374151 !important; color: #ffffff !important;}
-
-:global(body.theme-sombre .action-item:hover) { background-color: #374151 !important; color: #60a5fa !important; }
-:global(body.theme-sombre .text-red:hover) { background-color: #7f1d1d !important; color: #f87171 !important; }
-
-:global(body.theme-sombre .icon-btn) { color: #ffffff !important; }
-:global(body.theme-sombre .svg-icon) { filter: brightness(0) invert(1) !important; }
-:global(body.theme-sombre .user-profile span) { color: #60a5fa !important; }
-:global(body.theme-sombre .text-red) { color: #ef4444 !important; }
-
-:global(body.theme-sombre img[src*="logo-mmi"]) {
-  content: url("../assets/logo-mmi (1).svg") !important;
-}
-
-:global(body.theme-sombre .months .month-pill) { color: #9ca3af !important; }
-:global(body.theme-sombre .active-month) { color: #60a5fa !important; border-bottom: 2px solid #60a5fa !important; background: transparent !important; }
-
-:global(body.theme-sombre .days .day-circle) { color: #d1d5db !important; }
-:global(body.theme-sombre .active-day) { color: #60a5fa !important; border: 2px solid #60a5fa !important; background: transparent !important; }
-
-:global(body.theme-sombre .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
-:global(body.theme-sombre .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}
-</style>
+<style scoped src="../css/AdminDashboard.css"></style>

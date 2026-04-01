@@ -240,7 +240,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import SidebarMenu from '../components/SidebarMenu.vue';
 
@@ -250,23 +250,44 @@ const searchQuery = ref('');
 const filtreSemestre = ref('');
 const filtreGroupe = ref('');
 
+// Configuration partagée globale (dates)
 const nomsMoisGlobaux = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
 const dateAujourdhui = new Date();
-const moisActuelAbrege = nomsMoisGlobaux[dateAujourdhui.getMonth()].substring(0, 3) + ' ' + dateAujourdhui.getDate(); 
+const moisActuelString = nomsMoisGlobaux[dateAujourdhui.getMonth()];
+const jourActuel = dateAujourdhui.getDate();
+const moisActuelAbrege = moisActuelString.substring(0, 3) + ' ' + jourActuel;
 
-const toutesLesSAE = ref([
-  { id: 1, titre: 'Projet Web', semestre: 'S1', groupe: 'g1', date: moisActuelAbrege, color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 8 },
-  { id: 2, titre: 'Design UX/UI', semestre: 'S1', groupe: 'g2', date: 'Avr 15', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2 },
-  { id: 3, titre: 'Communication', semestre: 'S2', groupe: 'g1', date: 'Mai 02', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 5 },
-  { id: 4, titre: 'Audiovisuel', semestre: 'S3', groupe: 'g3', date: moisActuelAbrege, color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 1 },
-  { id: 5, titre: 'Intégration', semestre: 'S1', groupe: 'g1', date: 'Avr 30', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 9 },
-  { id: 6, titre: 'Développement Back', semestre: 'S2', groupe: 'g3', date: moisActuelAbrege, color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 0 },
-  { id: 7, titre: 'Stratégie Marketing', semestre: 'S3', groupe: 'g2', date: 'Juin 10', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 4 },
-  { id: 8, titre: 'Motion Design', semestre: 'S4', groupe: 'g1', date: moisActuelAbrege, color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2 },
-  { id: 9, titre: 'Gestion de Projet', semestre: 'S4', groupe: 'g4', date: 'Juil 05', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 6 },
-  { id: 10, titre: 'Ergonomie', semestre: 'S2', groupe: 'g2', date: moisActuelAbrege, color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 3 },
-  { id: 11, titre: 'Hébergement Web', semestre: 'S5', groupe: 'g1', date: 'Sep 01', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 1 },
-]);
+// --- BASE DE DONNÉES SAE PARTAGÉE (LocalStorage) ---
+const defaultSAEs = [
+  { id: 1, titre: 'SAE 301 - Projet Web', semestre: 'S1', groupe: 'g1', mois: moisActuelString, jour: jourActuel, date: moisActuelAbrege, color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 8, description: "Réaliser une application web full-stack avec framework front et back, API REST.", filiere: "Développement Web", consignes: "Fournir le code source complet sur un dépôt Git.\n\nLa documentation technique doit inclure le diagramme de base de données.\n\nLe rendu est individuel." },
+  { id: 2, titre: 'SAE 303 - Design UX/UI', semestre: 'S1', groupe: 'g2', mois: moisActuelString, jour: jourActuel, date: 'Avr 15', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2, description: "Concevoir l'interface utilisateur d'une application mobile en respectant les principes UX.", filiere: "Création Numérique", consignes: "Le livrable doit inclure le lien du prototype interactif Figma avec tous les écrans connectés. L'UI Kit doit être fourni." },
+  { id: 3, titre: 'SAE 302 - Communication', semestre: 'S2', groupe: 'g1', mois: moisActuelString, jour: jourActuel, date: 'Mai 02', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 5, description: "Établir une stratégie de communication digitale pour un lancement de produit.", filiere: "Communication", consignes: "Rédiger un dossier PDF de 15 pages minimum incluant le budget et le planning de publication. Un support de presentation oral est requis." },
+  { id: 4, titre: 'SAE 401 - Audiovisuel', semestre: 'S3', groupe: 'g3', mois: 'Novembre', jour: 12, date: 'Nov 12', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 1 },
+  { id: 5, titre: 'SAE 201 - Intégration', semestre: 'S1', groupe: 'g1', mois: 'Avril', jour: 30, date: 'Avr 30', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 9 },
+  { id: 6, titre: 'SAE 402 - Développement Back', semestre: 'S2', groupe: 'g3', mois: 'Decembre', jour: 15, date: 'Dec 15', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 0 },
+  { id: 7, titre: 'SAE 304 - Stratégie Marketing', semestre: 'S3', groupe: 'g2', mois: 'Juin', jour: 10, date: 'Juin 10', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 4 },
+  { id: 8, titre: 'SAE 403 - Motion Design', semestre: 'S4', groupe: 'g1', mois: 'Janvier', jour: 20, date: 'Jan 20', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2 },
+  { id: 9, titre: 'SAE 202 - Gestion de Projet', semestre: 'S4', groupe: 'g4', mois: 'Juillet', jour: 5, date: 'Juil 05', color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 6 },
+  { id: 10, titre: 'SAE 203 - Ergonomie', semestre: 'S2', groupe: 'g2', mois: 'Fevrier', jour: 28, date: 'Fev 28', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 3 },
+  { id: 11, titre: 'SAE 501 - Hébergement Web', semestre: 'S5', groupe: 'g1', mois: 'Septembre', jour: 1, date: 'Sep 01', color: 'linear-gradient(135deg, #7f1d1d, #14532d, #a78bfa)', notifs: 1 }
+];
+
+const loadSAEs = () => {
+  const stored = localStorage.getItem('mmi_data_sae_v2');
+  if (stored) return JSON.parse(stored);
+  localStorage.setItem('mmi_data_sae_v2', JSON.stringify(defaultSAEs));
+  return defaultSAEs;
+};
+
+const saveSAEs = (data) => {
+  localStorage.setItem('mmi_data_sae_v2', JSON.stringify(data));
+};
+
+const toutesLesSAE = ref([]);
+
+onMounted(() => {
+  toutesLesSAE.value = loadSAEs();
+});
 
 const saesFiltrees = computed(() => {
   return toutesLesSAE.value.filter(sae => {
@@ -291,11 +312,17 @@ const gererUploadFichier = (event) => {
 
 const validerAjoutSAE = () => {
   const objDate = new Date(nouvelleSae.value.dateInput);
+  
+  let moisSae = moisActuelString;
+  let jourSae = jourActuel;
   let formattedDate = moisActuelAbrege; 
+  let dateFinaleFull = "À définir";
   
   if (!isNaN(objDate)) {
-    const mois = nomsMoisGlobaux[objDate.getMonth()].substring(0, 3);
-    formattedDate = `${mois} ${objDate.getDate()}`;
+    moisSae = nomsMoisGlobaux[objDate.getMonth()];
+    jourSae = objDate.getDate();
+    formattedDate = `${moisSae.substring(0, 3)} ${jourSae}`;
+    dateFinaleFull = `${jourSae} ${moisSae} ${objDate.getFullYear()}`;
   }
 
   toutesLesSAE.value.push({
@@ -303,23 +330,31 @@ const validerAjoutSAE = () => {
     titre: nouvelleSae.value.titre,
     semestre: nouvelleSae.value.semestre,
     groupe: nouvelleSae.value.groupe,
+    mois: moisSae,
+    jour: jourSae,
     date: formattedDate,
-    color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', 
+    dateEcheance: dateFinaleFull,
+    description: nouvelleSae.value.description || "Aucune description fournie.",
+    color: '#f59e0b', 
     notifs: 0
   });
 
+  saveSAEs(toutesLesSAE.value);
   afficherAjoutSaePopup.value = false;
   nouvelleSae.value = { titre: '', semestre: 'S1', groupe: 'g1', dateInput: '', description: '', fichiers: [] };
   alert("S.A.E ajoutée avec succès !");
 };
 
+// --- MODIFICATION DÉCLENCHÉE ICI ---
 const modifierSAE = (id) => {
-  alert(`Édition de la S.A.E numéro ${id}`);
+  // Redirige vers la page de détail avec un paramètre "edit" pour ouvrir la modale directement
+  router.push({ path: '/admin/sae/' + id, query: { edit: 'true' } });
 };
 
 const supprimerSAE = (id) => {
   if (confirm("Êtes-vous sûr de vouloir supprimer cette S.A.E ?")) {
     toutesLesSAE.value = toutesLesSAE.value.filter(sae => sae.id !== id);
+    saveSAEs(toutesLesSAE.value);
   }
 };
 
@@ -399,239 +434,4 @@ watch(() => accessibilite.value.voix, (estActive) => {
 });
 </script>
 
-<style scoped>
-.dashboard-layout { display: flex; height: 100vh; width: 100vw; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
-.main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
-
-/* Header & Search Bar */
-.top-header { display: flex; justify-content: space-between; padding: 0 2rem; background: #B4D4FE; align-items: center; border-bottom: 1px solid #e5e7eb; height: 80px; box-sizing: border-box;}
-
-.search-container { flex: 1; display: flex; align-items: center; margin-left: 20px;}
-.search-bar { display: flex; align-items: center; background: white; border-radius: 8px; padding: 0.6rem 1rem; width: 400px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-.search-icon-svg { width: 18px; height: 18px; margin-right: 10px; filter: invert(0.6); } 
-.search-input { border: none; outline: none; width: 100%; font-size: 0.95rem; font-family: 'Inter', sans-serif; background: transparent; }
-
-.top-icons { display: flex; gap: 15px; align-items: center; }
-.icon-btn { background: none; border: none; cursor: pointer; color: #6b7280; padding: 5px; display: flex; align-items: center; justify-content: center; }
-.svg-icon { width: 22px; height: 22px; transition: transform 0.2s; }
-.svg-icon:hover { transform: scale(1.1); }
-.user-profile { font-weight: 600; color: #1e40af; margin-left: 20px;}
-.clickable { cursor: pointer; transition: color 0.2s; }
-.clickable:hover { color: #3b82f6; }
-
-/* POP-UPS */
-.popup-menu { position: absolute; top: 75px; right: 20px; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 340px; z-index: 100; overflow: hidden;}
-.standard-popup { padding: 1.5rem; }
-.standard-popup h3 { margin-top: 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.8rem; font-size: 1.1rem;}
-.notif-list { padding-left: 0; list-style: none; margin: 0;}
-.notif-item { display: flex; align-items: flex-start; gap: 12px; padding: 0.8rem 0; border-bottom: 1px solid #f3f4f6; }
-.notif-item:last-child { border-bottom: none; padding-bottom: 0;}
-.notif-icon { font-size: 1.1rem; }
-.notif-text { font-size: 0.9rem; color: #374151; line-height: 1.4;}
-.action-list { list-style: none; padding: 0; margin: 0;}
-.action-item { padding: 0.8rem 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.95rem; cursor: pointer; transition: 0.2s;}
-.action-item:hover { background-color: #f8fafc; color: #3b82f6; }
-.action-item:last-child { border-bottom: none; }
-.text-red { color: #ef4444; font-weight: 600;}
-.text-red:hover { background-color: #fef2f2; color: #dc2626; }
-
-.accessibilite-menu { width: 340px; }
-.popup-header-black { background-color: black; color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem; }
-.popup-header-black h3 { margin: 0; font-size: 1.1rem; font-weight: normal;}
-.close-btn-white { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
-.popup-body { padding: 0.5rem 0; }
-.feature-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #f3f4f6; }
-.zoom-feature { flex-direction: column; align-items: flex-start; gap: 15px; }
-.zoom-buttons { display: flex; gap: 5px; }
-.feature-label { display: flex; align-items: center; gap: 12px; font-size: 1rem; color: #374151; font-weight: 500;}
-.icon-wrapper { display: flex; align-items: center; justify-content: center; width: 24px; font-size: 1.2rem; }
-.font-bold { font-weight: bold; font-family: serif; }
-.btn-toggle-action { background: #e5e7eb; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: 0.2s;}
-.btn-toggle-action:hover { background: #d1d5db; }
-.active-zoom { background: #3b82f6 !important; color: white; border-color: #3b82f6; }
-.reset-btn { background: #ef4444 !important; color: white; }
-.reset-btn:hover { background: #dc2626 !important; }
-
-/* MODALS */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.modal-content-center { background: white; padding: 2.5rem; border-radius: 12px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.modal-xl { width: 600px; } 
-.modal-content-center h3 { margin-top: 0; color: #111827; margin-bottom: 1.5rem; font-size: 1.3rem;}
-.form-group-modal { margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;}
-.form-row-modal { display: flex; gap: 1rem; }
-.flex-1 { flex: 1; }
-.form-group-modal label { font-size: 0.9rem; color: #374151; font-weight: 500;}
-.input-full { width: 100%; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; font-family: 'Inter', sans-serif;}
-.textarea-consigne { min-height: 100px; resize: vertical; }
-.file-input { padding: 0.5rem; background: #f9fafb;}
-.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;}
-.btn-cancel { background: transparent; border: none; color: #6b7280; cursor: pointer; font-weight: 500;}
-.btn-confirm { background: #3b82f6; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-weight: 500;}
-
-.switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
-.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
-input:checked + .slider { background-color: #2196F3; }
-input:checked + .slider:before { transform: translateX(20px); }
-.slider.round { border-radius: 34px; }
-.slider.round:before { border-radius: 50%; }
-
-/* CONTENU DE LA PAGE : SPECIFIQUE A LA VUE SAE */
-.content-area { padding: 2rem 3rem; overflow-y: auto; width: 100%; box-sizing: border-box;}
-
-.page-header { display: flex; justify-content: space-between; align-items: center; }
-.breadcrumb { font-size: 0.8rem; color: #6b7280; font-weight: normal; margin-left: 10px;}
-.divider { border: 0; height: 1px; background: #d1d5db; margin-bottom: 2rem; }
-
-/* Bouton d'ajout Figma-style */
-.btn-add-main {
-  background-color: #f59e0b; 
-  color: #111827; /* Noir/Foncé pour le plus */
-  border: none;
-  border-radius: 8px; /* Carré aux bords arrondis */
-  width: 40px;
-  height: 40px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
-  transition: transform 0.2s;
-}
-.btn-add-main:hover { transform: scale(1.05); }
-
-.filters-toolbar {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-.filter-select {
-  padding: 0.6rem 1.2rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: white;
-  color: #374151;
-  font-size: 0.95rem;
-  cursor: pointer;
-  outline: none;
-}
-
-.sae-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-  gap: 2rem; 
-  padding-bottom: 2rem;
-}
-
-.sae-card { 
-  background: white; 
-  padding: 1.2rem; 
-  border-radius: 12px; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
-  border: 1px solid #f3f4f6;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ajout de la transition */
-  cursor: pointer;
-}
-.sae-card:hover {
-  transform: translateY(-5px); /* Fait monter la carte */
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Ombre plus prononcée */
-}
-
-.sae-image-container {
-  position: relative; 
-  margin-bottom: 1.2rem;
-}
-
-.sae-gradient { 
-  height: 150px; 
-  border-radius: 8px; 
-}
-
-.sae-card-actions {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.action-btn {
-  width: 32px;
-  height: 32px;
-  background: transparent; 
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.action-btn:hover { transform: scale(1.1); }
-
-.action-svg {
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  /* Pas de filtre ici, laisse les couleurs d'origine (rouge/orange) */
-}
-
-.sae-title { font-size: 1.05rem; font-weight: 600; margin: 0 0 10px 0; color: #1f2937; }
-
-.sae-info { 
-  display: flex; 
-  justify-content: space-between; 
-  font-size: 0.85rem; 
-  color: #6b7280; 
-  border-top: 1px solid #f3f4f6; 
-  padding-top: 12px;
-  margin-top: auto;
-}
-
-.urgent-date { color: #ef4444; font-weight: 600; } 
-
-.no-sae { grid-column: 1 / -1; color: #6b7280; font-style: italic; text-align: center; margin-top: 2rem;}
-
-/* ==========================================================
-   MODE SOMBRE GLOBAL
-   ========================================================== */
-:global(body.theme-sombre) { background-color: #111827 !important; color: #ffffff !important; }
-:global(body.theme-sombre .dashboard-layout) { background-color: #111827 !important; color: #ffffff !important; }
-:global(body.theme-sombre .top-header) { background: #1f2937 !important; border-bottom-color: #374151 !important; }
-:global(body.theme-sombre .search-bar) { background: #374151 !important; border: 1px solid #4b5563 !important; }
-:global(body.theme-sombre .search-input) { color: #ffffff !important; }
-:global(body.theme-sombre .search-input::placeholder) { color: #9ca3af !important; }
-:global(body.theme-sombre .search-icon-svg) { filter: brightness(0) invert(1) opacity(0.5) !important; }
-
-:global(body.theme-sombre aside),
-:global(body.theme-sombre .sidebar-container),
-:global(body.theme-sombre .sidebar),
-:global(body.theme-sombre .sidebar-menu) { background-color: #111827 !important; border-right-color: #374151 !important; }
-:global(body.theme-sombre aside > div),
-:global(body.theme-sombre .sidebar > div),
-:global(body.theme-sombre .sidebar-container > div) { background-color: #111827 !important; }
-
-:global(body.theme-sombre .sae-card), 
-:global(body.theme-sombre .popup-menu),
-:global(body.theme-sombre .modal-content-center) { background: #1f2937 !important; border-color: #374151 !important; color: #ffffff !important; }
-
-:global(body.theme-sombre h1), :global(body.theme-sombre h2), :global(body.theme-sombre h3), :global(body.theme-sombre span), :global(body.theme-sombre p), :global(body.theme-sombre div:not(.sae-gradient)), :global(body.theme-sombre li), :global(body.theme-sombre a), :global(body.theme-sombre label) { color: #ffffff !important; }
-:global(body.theme-sombre input:not([type="checkbox"])), :global(body.theme-sombre select), :global(body.theme-sombre textarea) { background-color: #374151 !important; color: #ffffff !important; border-color: #4b5563 !important; }
-:global(body.theme-sombre .file-input) { background-color: #4b5563 !important; }
-:global(body.theme-sombre select option) { background-color: #374151 !important; color: #ffffff !important; }
-:global(body.theme-sombre input::placeholder), :global(body.theme-sombre textarea::placeholder) { color: #ffffff !important; }
-:global(body.theme-sombre .feature-item), :global(body.theme-sombre .notif-item), :global(body.theme-sombre .action-item), :global(body.theme-sombre .sae-info) { border-color: #374151 !important; color: #ffffff !important;}
-:global(body.theme-sombre .action-item:hover) { background-color: #374151 !important; color: #60a5fa !important; }
-:global(body.theme-sombre .text-red:hover) { background-color: #7f1d1d !important; color: #f87171 !important; }
-:global(body.theme-sombre .icon-btn) { color: #ffffff !important; }
-:global(body.theme-sombre .svg-icon) { filter: brightness(0) invert(1) !important; }
-:global(body.theme-sombre .user-profile span) { color: #60a5fa !important; }
-:global(body.theme-sombre .text-red) { color: #ef4444 !important; }
-:global(body.theme-sombre img[src*="logo-mmi"]) { content: url("../assets/logo-mmi (1).svg") !important; }
-:global(body.theme-sombre .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
-:global(body.theme-sombre .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}
-</style>
+<style scoped src="../css/AdminDashboard_SAE.css"></style>
