@@ -38,7 +38,6 @@ class RenduType extends AbstractType
                 'required' => false,
             ])
             ->add('file', FileType::class, [
-                'label' => 'Fichier',
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [

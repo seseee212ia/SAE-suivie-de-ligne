@@ -28,13 +28,10 @@ class DocumentType extends AbstractType
                 'choice_label' => 'id',
             ])
             ->add('file', FileType::class, [
-                'label' => 'Fichier',
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '10M',
-                    ])
+                    new File(['maxSize' => '10M'])
                 ],
             ])
         ;
