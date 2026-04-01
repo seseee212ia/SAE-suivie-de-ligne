@@ -90,8 +90,17 @@ use ApiPlatform\Metadata\Delete;
     #[ORM\Column(nullable: true)] 
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Groups(['rendu:read', 'rendu:write'])]
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null; 
+    private ?string $description = null;
+
+    #[Groups(['rendu:write'])] 
+    public ?File $fileImg = null; 
+
+    #[ORM\Column(nullable: true)] 
+    #[Groups(['rendu:read'])] 
+    private ?string $img = null;
+
 
     public function getId(): ?int
     {
@@ -190,6 +199,29 @@ use ApiPlatform\Metadata\Delete;
         $this->description = $description;
 
         return $this;
+    }
+
+      public function setFileImg(?File $fileImg = null): void 
+    { 
+        $this->fileImg = $fileImg; 
+        if (null !== $file) { 
+            $this->updatedAt = new \DateTimeImmutable(); 
+        } 
     } 
+
+    public function getFileImg(): ?File 
+    { 
+        return $this->fileImg; 
+    } 
+
+    public function getImg(): ?string 
+    { 
+        return $this->img; 
+    } 
+
+    public function setImg(?string $img): void 
+    { 
+        $this->img = $img; 
+    }
 }
 

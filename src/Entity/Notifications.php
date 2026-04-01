@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Entity;
 
+use App\Notifications\DocNotification;
 use ApiPlatform\Metadata\ApiResource;
 use App\Enum\Type;
 use App\Repository\NotificationsRepository;

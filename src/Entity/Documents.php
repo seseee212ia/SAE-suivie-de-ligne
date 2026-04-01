@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Notifications\DocNotification;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
