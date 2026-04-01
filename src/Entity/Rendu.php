@@ -11,30 +11,36 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use Symfony\Component\HttpFoundation\File\File; 
+use Vich\UploaderBundle\Mapping\Annotation as Vich; 
+use ApiPlatform\Metadata\ApiProperty; 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: RenduRepository::class)]
+#[ApiFilter(SearchFilter::class, properties: [
+    'nom' => 'partial',
+    'etudiant.nom' => 'partial',
+    'sae.semestre' => 'exact'
+])]
 #[ApiResource(
     normalizationContext: ['groups' => ['rendu:read']],
     denormalizationContext: ['groups' => ['rendu:write']],
-    operations: [
-        new \ApiPlatform\Metadata\GetCollection(),
-        new \ApiPlatform\Metadata\Get(),
-        new \ApiPlatform\Metadata\Post(
-            inputFormats: ['multipart' => ['multipart/form-data']],
-            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
-        ),
-        new \ApiPlatform\Metadata\Put(
-            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
-        ),
-        new \ApiPlatform\Metadata\Delete(
-            security: "is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ADMIN')"
-        )
-    ]
+    operations: [ 
+        new Get(), 
+        new GetCollection(), 
+        new Post( 
+            security: "is_granted('ROLE_ETUDIANT')"),
+        new Put(security: "is_granted('ROLE_ETUDIANT')"),
+        new Delete(security: "is_granted('ROLE_ETUDIANT')")
+    ] 
 )]
-#[Vich\Uploadable]
-class Rendu
+ class Rendu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,25 +50,25 @@ class Rendu
 
     #[ORM\Column(length: 255)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank(message: 'Le nom du fichier est obligatoire')]
-    #[Assert\Length(min: 3, minMessage: 'Le nom du fichier doit faire au moins 3 caractères')]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotBlank(message: 'La date est obligatoire')]
-    private ?\DateTime $date = null;
+    #[Assert\NotBlank]
+    #[Assert\LessThan(propertyPath: 'dateDebut')]
+    private ?\DateTimeImmutable $date = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotNull(message: 'Une SAE doit obligatoirement être attachée')]
+    #[Assert\NotNull]
     private ?Sae $sae = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['rendu:read', 'rendu:write'])]
-    #[Assert\NotNull(message: 'Un étudiant (auteur) doit obligatoirement être attaché')]
+    #[Groups(['rendu:read'])]
+    #[Assert\NotNull]
     private ?Etudiants $etudiant = null;
 
     #[ORM\ManyToOne]
@@ -70,16 +76,18 @@ class Rendu
     #[Groups(['rendu:read', 'rendu:write'])]
     private ?Groupe $groupe = null;
 
-    #[Vich\UploadableField(mapping: 'rendus', fileNameProperty: 'fileName')]
-    #[Groups(['rendu:write'])]
-    public ?File $file = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['rendu:read'])]
-    private ?string $fileName = null;
-
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true)] 
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[Groups(['rendu:read', 'rendu:write'])]
+    #[Assert\NotBlank]
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[Groups(['rendu:read', 'rendu:write'])]
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
+    private ?string $img = null; 
 
     public function getId(): ?int
     {
@@ -98,12 +106,12 @@ class Rendu
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): static
+    public function setDate(\DateTimeImmutable $date): static
     {
         $this->date = $date;
 
@@ -142,30 +150,31 @@ class Rendu
     public function setGroupe(?Groupe $groupe): static
     {
         $this->groupe = $groupe;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
 
-    public function setFile(?File $file = null): void
+    public function getImg(): ?string
     {
-        $this->file = $file;
-        if (null !== $file) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
+        return $this->img;
     }
 
-    public function getFile(): ?File
+    public function setImg(string $img): static
     {
-        return $this->file;
-    }
+        $this->img = $img;
 
-    public function getFileName(): ?string
-    {
-        return $this->fileName;
-    }
-
-    public function setFileName(?string $fileName): void
-    {
-        $this->fileName = $fileName;
-    }
+        return $this;
+    } 
 }
+

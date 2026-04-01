@@ -11,13 +11,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 
 #[ORM\Entity(repositoryClass: EtudiantsRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NUM_ETUDIANT', fields: ['numEtudiant'])]
 #[ApiResource(
     normalizationContext: ['groups' => ['etudiant:read']],
-    denormalizationContext: ['groups' => ['etudiant:write']]
+    denormalizationContext: ['groups' => ['etudiant:write']],
+        operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ]
 )]
 class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -29,8 +41,7 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(type: 'integer')]
-    #[Assert\NotBlank(message: 'Le numéro étudiant est obligatoire')]
-    #[Assert\Range(min: 10000000, max: 99999999, notInRangeMessage: 'Le numéro étudiant doit contenir exactement 8 chiffres')]
+    #[Assert\NotBlank]
     private ?int $numEtudiant = null;
 
     /**
@@ -44,24 +55,22 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
-    #[Assert\Length(min: 2, max: 30, minMessage: 'Le nom doit faire au moins 2 caractères')]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'Le prénom est obligatoire')]
-    #[Assert\Length(min: 2, max: 30, minMessage: 'Le prénom doit faire au moins 2 caractères')]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
     #[Groups(['etudiant:read', 'etudiant:write'])]
     #[ORM\Column(enumType: Promotion::class)]
-    #[Assert\NotBlank(message: 'La promotion est obligatoire')]
+    #[Assert\NotBlank]
     private ?Promotion $promotion = null;
 
     #[Groups(['etudiant:read', 'etudiant:write'])]
@@ -173,7 +182,7 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
+    public function getPromotion(): Promotion
     {
         return $this->promotion;
     }
@@ -185,12 +194,12 @@ class Etudiants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSpecialite(): ?Specialite
+    public function getSpecialite(): Specialite
     {
         return $this->specialite;
     }
 
-    public function setSpecialite(?Specialite $specialite): static
+    public function setSpecialite(Specialite $specialite): static
     {
         $this->specialite = $specialite;
 
