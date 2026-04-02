@@ -56,24 +56,24 @@ class Documents
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     private ?Enseignants $enseignant = null;
-    
-    #[Groups(['doc:write'])] 
-    public ?File $file = null; 
- 
-    #[ORM\Column(nullable: true)] 
-    #[Groups(['doc:read'])] 
-    private ?string $fileName = null; 
+
+    #[Groups(['doc:write'])]
+    public ?File $file = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['doc:read'])]
+    private ?string $fileName = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    public function getId(): ?int 
-    { 
-        return $this->id; 
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-    public function getNom(): ?string 
-    { 
+    public function getNom(): ?string
+    {
         return $this->nom;
     }
 
@@ -83,9 +83,9 @@ class Documents
         return $this;
     }
 
-    public function getSae(): ?Sae 
-    { 
-        return $this->sae; 
+    public function getSae(): ?Sae
+    {
+        return $this->sae;
     }
 
     public function setSae(?Sae $sae): static
@@ -94,9 +94,9 @@ class Documents
         return $this;
     }
 
-    public function getEnseignant(): ?Enseignants 
-    { 
-        return $this->enseignant; 
+    public function getEnseignant(): ?Enseignants
+    {
+        return $this->enseignant;
     }
 
     public function setEnseignant(?Enseignants $enseignant): static
@@ -105,24 +105,26 @@ class Documents
         return $this;
     }
 
-    public function setFile(?File $file = null): void 
-    { 
-        $this->file = $file; 
-        if (null !== $file) { 
-            $this->updatedAt = new \DateTimeImmutable(); 
-        } 
-    } 
-
-    public function getFile(): ?File { 
-        return $this->file; 
+    public function setFile(?File $file = null): void
+    {
+        $this->file = $file;
+        if (null !== $file) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function getFileName(): ?string { 
-        return $this->fileName; 
-    } 
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
 
-    public function setFileName(?string $fileName): void 
-    { 
-        $this->fileName = $fileName; 
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName(?string $fileName): void
+    {
+        $this->fileName = $fileName;
     }
 }

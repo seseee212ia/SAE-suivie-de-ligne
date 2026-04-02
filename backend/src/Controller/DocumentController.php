@@ -33,9 +33,8 @@ class DocumentController extends AbstractController
                 } catch (FileException $e) {
                     throw new BadRequestHttpException('Erreur lors de l\'upload du document.');
                 }
-                
-                $document->setNomFichier($newFilename);
-                $document->setFormat($uploadedFile->guessExtension());
+
+                $document->setFileName($newFilename);
             }
 
             return $document;
