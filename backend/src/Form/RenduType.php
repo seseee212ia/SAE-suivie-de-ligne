@@ -21,6 +21,20 @@ class RenduType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class)
+            ->add('fileImg', FileType::class, [
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new FileImg([
+                        'maxSize' => '10M',
+                        'mimeTypes' => [
+                            'fileImg/jpeg',
+                            'fileImg/png',
+                            'fileImg/webp'
+                        ]
+                    ])
+                ],
+            ])
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
             ])
@@ -38,7 +52,6 @@ class RenduType extends AbstractType
                 'required' => false,
             ])
             ->add('file', FileType::class, [
-                'label' => 'Fichier',
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [

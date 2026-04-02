@@ -1,16 +1,16 @@
 <?php
+namespace App\Notifications;
 
-namespace App\EventListener;
-
+use App\Notifications\DocNotification;
 use App\Entity\Documents;
 use App\Entity\Sae;
-use App\Entity\Notification;
+use App\Entity\Notifications;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: Documents::class)]
-class DocNotifications
+class DocNotification
 {
     public function postPersist(Documents $doc, LifecycleEventArgs $args): void
     {

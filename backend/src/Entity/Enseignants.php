@@ -9,13 +9,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: EnseignantsRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER', fields: ['user'])]
 #[ApiResource(
     normalizationContext: ['groups' => ['enseignant:read']],
-    denormalizationContext: ['groups' => ['enseignant:write']]
+    denormalizationContext: ['groups' => ['enseignant:write']],
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ]
 )]
 class Enseignants implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,7 +38,7 @@ class Enseignants implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups(['enseignant:read', 'enseignant:write'])]
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank(message: 'Le nom d\'utilisateur est obligatoire')]
+    #[Assert\NotBlank]
     private ?string $user = null;
 
     /**
@@ -41,19 +52,17 @@ class Enseignants implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[Groups(['enseignant:read', 'enseignant:write'])]
     #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
-    #[Assert\Length(min: 2, max: 30, minMessage: 'Le nom doit faire au moins 2 caractères')]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[Groups(['enseignant:read', 'enseignant:write'])]
     #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'Le prénom est obligatoire')]
-    #[Assert\Length(min: 2, max: 30, minMessage: 'Le prénom doit faire au moins 2 caractères')]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
     public function getId(): ?int
