@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Sae;
+use App\Entity\SAE;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Sae>
+ * @extends ServiceEntityRepository<SAE>
  */
-class SaeRepository extends ServiceEntityRepository
+class SAERepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Sae::class);
+        parent::__construct($registry, SAE::class);
     }
 
     //    /**
-    //     * @return Sae[] Returns an array of Sae objects
+    //     * @return SAE[] Returns an array of SAE objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class SaeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Sae
+    //    public function findOneBySomeField($value): ?SAE
     //    {
     //        return $this->createQueryBuilder('s')
     //            ->andWhere('s.exampleField = :val')

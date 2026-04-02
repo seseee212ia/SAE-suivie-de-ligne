@@ -23,7 +23,7 @@
           </button>
           
           <div class="user-profile clickable" @click="toggleProfil" role="button" aria-label="Profil administrateur">
-            <span>Admin ⌄</span>
+            <span>Admin</span>
           </div>
         </div>
 
@@ -187,13 +187,10 @@
                 <option value="S6">Semestre 6</option>
               </select>
 
-              <select v-model="nouvelleSae.groupe" class="input-select" aria-label="Groupe assigné">
-                <option value="A">Groupe A</option>
-                <option value="A1">A1</option>
-                <option value="A2">A2</option>
-                <option value="B">Groupe B</option>
-                <option value="B1">B1</option>
-                <option value="B2">B2</option>
+              <select v-model="nouvelleSae.groupe" class="input-select" aria-label="Groupe">
+                <option value="Tous">Tous</option>
+                <option value="Dévelopemment web">Dévelopemment web</option>
+                <option value="Création numérique">Création numérique</option>
               </select>
               
               <div class="date-group">
@@ -224,7 +221,7 @@ import SidebarMenu from '../components/SidebarMenu.vue';
 
 const router = useRouter();
 
-// --- CALENDRIER ET FILTRAGE ---
+// Affichage du calendrier 
 const listMois = ref([]);
 const moisSelectionne = ref('');
 const jourSelectionne = ref(1);
@@ -263,7 +260,7 @@ const joursDuMois = computed(() => {
 const selectionnerMois = (mois) => { moisSelectionne.value = mois; };
 const selectionnerJour = (jour) => { jourSelectionne.value = jour; };
 
-// --- BASE DE DONNÉES SAE PARTAGÉE (LocalStorage) ---
+// Base de données des SAE (LocalStorage)
 const defaultSAEs = [
   { id: 1, titre: 'SAE 301 - Projet Web', semestre: 'S1', groupe: 'A1', mois: moisActuelString, jour: jourActuel, date: moisActuelAbrege, color: 'linear-gradient(135deg, #fbcfe8, #d8b4fe, #818cf8)', notifs: 8, description: "Réaliser une application web full-stack avec framework front et back, API REST.", filiere: "Développement Web", consignes: "Fournir le code source complet sur un dépôt Git.\n\nLa documentation technique doit inclure le diagramme de base de données.\n\nLe rendu est individuel." },
   { id: 2, titre: 'SAE 303 - Design UX/UI', semestre: 'S1', groupe: 'A2', mois: moisActuelString, jour: jourActuel, date: 'Avr 15', color: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #93c5fd)', notifs: 2, description: "Concevoir l'interface utilisateur d'une application mobile en respectant les principes UX.", filiere: "Création Numérique", consignes: "Le livrable doit inclure le lien du prototype interactif Figma avec tous les écrans connectés. L'UI Kit doit être fourni." },
@@ -304,12 +301,12 @@ const moisAbrege = (mois) => {
   return mois.substring(0, 3); // Nov, Dec, etc.
 };
 
-// --- FILTRAGE SAE ---
+// Filtrage des SAE en fonction du mois sélectionné et du jour sélectionné
 const saesFiltrees = computed(() => {
   return listeSAE_BDD.value.filter(sae => sae.mois === moisSelectionne.value);
 });
 
-// --- AJOUT SAE ---
+// Ajout d'une nouvelle SAE
 const nouvelleSae = ref({ titre: '', semestre: 'S1', groupe: 'A', debut: '', fin: '', description: '' });
 const messageConfirmation = ref(false);
 
@@ -335,6 +332,7 @@ const ajouterSAE = () => {
       }
   }
 
+
   listeSAE_BDD.value.push({ 
     id: Date.now(), 
     mois: moisSae, 
@@ -358,7 +356,7 @@ const ajouterSAE = () => {
   }, 3000);
 };
 
-// --- GESTION DES POP-UPS ---
+// Gestion des menus et actions du profil
 const afficherAccessibilite = ref(false);
 const afficherNotifications = ref(false);
 const afficherParametres = ref(false);
@@ -451,4 +449,4 @@ watch(() => accessibilite.value.voix, (estActive) => {
 });
 </script>
 
-<style scoped src="../css/AdminDashboard.css"></style>
+<style scoped src="../css/AdminDashboard.css"></style> 

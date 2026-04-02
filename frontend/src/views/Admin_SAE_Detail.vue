@@ -102,7 +102,7 @@
             </div>
             
             <div class="form-group-modal">
-              <label>Description courte</label>
+              <label>Description</label>
               <input v-model="saeData.description" type="text" class="input-full" />
             </div>
 
@@ -212,12 +212,13 @@
                     </select>
 
                     <template v-if="nouveauMembre.role === 'Enseignant'">
-                       <select v-model="nouveauMembre.nom" class="input-select w-full" required>
-                          <option value="" disabled>Sélectionner un enseignant</option>
-                          <option v-for="prof in enseignantsProposes" :key="prof" :value="prof">
-                              {{ prof }}
-                          </option>
-                       </select>
+                        <input 
+                          type="text" 
+                          v-model="nouveauMembre.nom" 
+                          placeholder="Nom de l'enseignant..." 
+                          class="input-search-member flex-1" 
+                          required 
+                        />
                     </template>
 
                     <template v-if="nouveauMembre.role === 'Étudiant'">
@@ -314,45 +315,6 @@ const saeData = ref({});
 const membresListe = ref([]); 
 const afficherModifSaePopup = ref(false);
 
-// --- LOGIQUE LOCALE ET INTELLIGENTE DES ENSEIGNANTS ---
-const enseignantsProposes = computed(() => {
-    const filiere = (saeData.value.filiere || "").toLowerCase();
-    const titre = (saeData.value.titre || "").toLowerCase();
-    const semestreStr = saeData.value.semestre || "S1";
-    const numSemestre = parseInt(semestreStr.replace('S', ''));
-
-    // Liste par défaut exhaustive
-    let professeurs = [
-        'Olivier Le Cadet (Dev Web)', 
-        'Soufian Ben Amor (Dev Web & Ergonomie)', 
-        'Sylvie Fabre (Communication)', 
-        'Therese Lepage (Anglais)', 
-        'Sophia Kourkoulakou (VR & 3D)',
-        'Vincent Wable (Audiovisuel)', 
-        'Fred Pirat (Audiovisuel)',
-        'Xavier hautbois (Développement web Animation 2D/3D )',
-        'Brigitte Neveu-Derotrie (Marketing)',
-        'Michel Pinoza (Graphisme)',
-        'Jean-Marie Clech (Graphisme)',
-    ];
-
-   // Filtrage basé sur les mots clés de la SAE
-    if (filiere.includes('web') || filiere.includes('dev') || titre.includes('web') || titre.includes('back')) {
-        professeurs = ['Olivier Le Cadet (Dev Web)', 'Soufian Ben Amor (Dev Web & Ergonomie)'];
-    } else if (filiere.includes('design') || filiere.includes('graphisme') || filiere.includes('ergo') || titre.includes('ui')) {
-        professeurs = ['Jean-Marie Clech (Graphisme)', 'Michel Pinoza (Graphisme)', 'Soufian Ben Amor (Dev Web & Ergonomie)'];
-    } else if (filiere.includes('com') || titre.includes('marketing')) {
-        professeurs = ['Brigitte Neveu-Derotrie (Marketing)', 'Sylvie Fabre (Communication)'];
-    }
-
-    // Le prof de VR n'est disponible qu'à partir du semestre 3
-    if (numSemestre >= 3 && !professeurs.includes('Sophia Kourkoulakou (VR & 3D)')) {
-        professeurs.push('Sophia Kourkoulakou (VR & 3D)');
-    }
-
-    return professeurs;
-});
-
 onMounted(() => {
   const saeId = parseInt(route.params.id);
   
@@ -371,7 +333,7 @@ onMounted(() => {
       sousTitre: foundSae.sousTitre || "Nouvelle mission en cours",
       description: foundSae.description || "Aucune description détaillée n'a été fournie pour le moment.",
       consignes: foundSae.consignes || "Veuillez vous référer au document qui sera transmis par l'enseignant responsable.",
-      dateEcheance: foundSae.dateEcheance || "À définir"
+      //dateEcheance: foundSae.dateEcheance || "À définir"
     };
     membresListe.value = [...(foundSae.membres || [])]; 
   } else {
@@ -382,7 +344,7 @@ onMounted(() => {
       sousTitre: "Sujet en cours de rédaction",
       description: "La description de cette SAE n'est pas encore disponible.",
       semestre: "S1",
-      dateEcheance: "À définir",
+      //dateEcheance: "À définir",
       consignes: "Veuillez vous référer au document qui sera transmis par l'enseignant responsable.",
       color: "linear-gradient(135deg, #9ca3af, #4b5563)"
     };

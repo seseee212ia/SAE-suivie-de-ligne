@@ -222,3 +222,98 @@ h2 { font-size: 1.2rem; color: #111827; margin-bottom: 1rem;}
 
 :global(body.theme-sombre .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
 :global(body.theme-sombre .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}
+
+/* ==========================================================
+   MODE RESPONSIVE (Tablettes & Mobiles)
+   ========================================================== */
+
+@media (max-width: 992px) {
+  .sae-grid {
+    justify-content: center;
+  }
+  .add-sae-section {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  /* Transformation du header pour le mobile */
+  .top-header {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+    gap: 15px;
+  }
+  
+  .search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .top-icons {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  /* Formulaire d'ajout responsive */
+  .add-sae-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .input-title, .input-select, .date-group, .input-date {
+    width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Vue Détaillée */
+  .detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Fait passer la colonne des dates/détails avant la description sur mobile */
+  .side-column {
+    order: -1;
+  }
+
+  .content-area {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .months .month-pill {
+    font-size: 0.8rem;
+    padding: 0.2rem;
+  }
+  .days .day-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  .sae-card {
+    width: 100%;
+  }
+  .popup-menu {
+    width: 90%;
+    right: 5%;
+    left: 5%;
+  }
+}
