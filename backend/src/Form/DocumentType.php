@@ -21,17 +21,25 @@ class DocumentType extends AbstractType
             ->add('nom', TextType::class)
             ->add('sae', EntityType::class, [
                 'class' => Sae::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
             ])
             ->add('enseignant', EntityType::class, [
                 'class' => Enseignants::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('file', FileType::class, [
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
-                    new File(['maxSize' => '10M'])
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader un document PDF ou Word valide',
+                    ])
                 ],
             ])
         ;

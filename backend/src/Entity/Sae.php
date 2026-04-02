@@ -67,7 +67,6 @@ class Sae
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['sae:read', 'sae:write'])]
     #[Assert\NotBlank]
-    #[Assert\GreaterThan('today')]
     private ?\DateTime $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

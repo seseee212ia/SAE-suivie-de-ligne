@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Rendu;
@@ -20,7 +21,7 @@ class RenduController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form->get('file')->getData();
-            $uploadedFileImg = $form->get('fileImg')->getData();
+            $uploadedImg = $form->get('fileImg')->getData();
 
             if ($uploadedFile) {
                 $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -31,47 +32,32 @@ class RenduController extends AbstractController
                         $this->getParameter('rendus_directory'),
                         $newFilename
                     );
-
-                    $rendu->setFileName($newFilename);
-                    $rendu->setFile($uploadedFile);
                 } catch (FileException $e) {
                     throw new BadRequestHttpException('Erreur lors de l\'upload du rendu.');
                 }
+
+                $rendu->setFileName($newFilename);
             }
 
-            return $rendu;
-        }
-
-        throw new BadRequestHttpException('Données invalides ou fichier manquant.');
-    
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $uploadedFile = $form->get('file')->getData();
-            $uploadedFileImg = $form->get('fileImg')->getData();
-
-            if ($uploadedFileImg) {
-                $originalFilenameImg = pathinfo($uploadedFileImg->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilenameImg = $originalFilenameImg . '-' . uniqid() . '.' . $uploadedFileImg->guessExtension();
+            if ($uploadedImg) {
+                $originalFilenameImg = pathinfo($uploadedImg->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilenameImg = $originalFilenameImg . '-' . uniqid() . '.' . $uploadedImg->guessExtension();
 
                 try {
-                    $uploadedFileImg->move(
+                    $uploadedImg->move(
                         $this->getParameter('rendus_directory'),
                         $newFilenameImg
                     );
-
-                    $rendu->setFileName($newFilenameImg);
-                    $rendu->setFile($uploadedFileImg);
-
                 } catch (FileException $e) {
-                    throw new BadRequestHttpException('Erreur lors de l\'upload du rendu.');
-                    }
+                    throw new BadRequestHttpException('Erreur lors de l\'upload de l\'image.');
+                }
+
+                $rendu->setImg($newFilenameImg);
             }
 
             return $rendu;
         }
 
-        throw new BadRequestHttpException('Données invalides ou fichier manquant.');
+        throw new BadRequestHttpException('Données invalides ou fichier manquant. Vérifiez vos champs.');
     }
 }
- 

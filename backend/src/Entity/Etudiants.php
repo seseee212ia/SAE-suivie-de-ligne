@@ -23,7 +23,7 @@ use ApiPlatform\Metadata\Delete;
 #[ApiResource(
     normalizationContext: ['groups' => ['etudiant:read']],
     denormalizationContext: ['groups' => ['etudiant:write']],
-        operations: [
+    operations: [
         new Get(),
         new GetCollection(),
         new Post(security: "is_granted('ROLE_ADMIN')"),

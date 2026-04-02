@@ -25,12 +25,12 @@ class RenduType extends AbstractType
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
-                    new FileImg([
+                    new File([
                         'maxSize' => '10M',
                         'mimeTypes' => [
-                            'fileImg/jpeg',
-                            'fileImg/png',
-                            'fileImg/webp'
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp'
                         ]
                     ])
                 ],
@@ -40,15 +40,15 @@ class RenduType extends AbstractType
             ])
             ->add('sae', EntityType::class, [
                 'class' => Sae::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
             ])
             ->add('etudiant', EntityType::class, [
                 'class' => Etudiants::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
                 'required' => false,
             ])
             ->add('file', FileType::class, [
