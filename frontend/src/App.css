@@ -59,3 +59,13 @@ html, body {
   width: 100vw;
   height: 100vh;
 }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C) - MOBILE
+   ========================================== */
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 0 !important;
+    width: 100vw !important;
+  }
+}

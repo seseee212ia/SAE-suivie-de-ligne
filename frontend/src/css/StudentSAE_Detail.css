@@ -154,3 +154,52 @@
 :global(html.dark-theme) .form-input { background-color: #334155; color: white; border-color: #475569; }
 :global(html.dark-theme) .validate-btn { border-color: #475569; color: white; }
 :global(html.dark-theme) .validate-btn:hover { background-color: #334155; }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C) - MOBILE
+   ========================================== */
+@media (max-width: 1024px) {
+  /* On passe la colonne de droite (Jauge) en dessous de la colonne principale */
+  .dashboard-grid {
+    flex-direction: column;
+  }
+  .side-column {
+    max-width: 100%; /* Prend toute la largeur */
+  }
+}
+
+@media (max-width: 768px) {
+  .sae-detail-container {
+    padding: 20px 15px; /* On réduit le padding géant de 40px */
+  }
+
+  /* On empile les blocs "Ressources", "Annonces", etc. */
+  .split-row {
+    flex-direction: column;
+  }
+
+  /* On empêche le titre de déborder de la bannière */
+  .banner-content {
+    padding: 20px;
+  }
+  .sae-main-title {
+    font-size: 1.5rem;
+  }
+
+  /* On empile les cases à cocher des phases */
+  .phases-student-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Ajustement de la modale */
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  /* L'image de fleur en fond pourrait gêner la lecture sur un petit écran, on la cache */
+  .flower-banner-bg {
+    display: none; 
+  }
+}

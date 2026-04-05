@@ -101,3 +101,33 @@
   outline-offset: 4px;
   border-radius: 8px;
 }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C) - MOBILE
+   ========================================== */
+@media (max-width: 768px) {
+  .mes-sae-container {
+    padding: 20px 15px;
+  }
+
+  .title-section {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* On empile les menus déroulants de filtres */
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .custom-select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* On réduit un peu la largeur des colonnes Kanban sur mobile pour forcer le swipe */
+  .kanban-column {
+    min-width: 280px; 
+  }
+}

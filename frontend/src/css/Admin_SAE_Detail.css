@@ -528,3 +528,39 @@
   color: white;
   border-color: #4b5563;
 }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C) - MOBILE
+   ========================================== */
+@media (max-width: 1024px) {
+  /* On empile la colonne de gauche et la colonne de droite */
+  .detail-grid {
+    flex-direction: column;
+  }
+  
+  /* On empile le formulaire d'ajout de membre et la liste des membres */
+  .members-management-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-area {
+    padding: 1.5rem;
+  }
+  
+  .sae-banner {
+    height: 150px; /* Réduit la hauteur de l'image de couverture */
+  }
+
+  /* Modales pleines largeur sur mobile */
+  .modal-content-center {
+    width: 95%;
+    padding: 1.5rem;
+  }
+  
+  .form-row-modal {
+    flex-direction: column;
+    gap: 0;
+  }
+}

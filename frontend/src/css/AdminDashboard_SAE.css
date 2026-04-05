@@ -272,3 +272,54 @@
 :global(.dark-theme img[src*="logo-mmi"]) { content: url("../assets/logo-mmi (1).svg") !important; }
 :global(.dark-theme .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
 :global(.dark-theme .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C) - MOBILE
+   ========================================== */
+@media (max-width: 768px) {
+  /* 1. On réduit les marges de la page pour gagner de la place */
+  .content-area {
+    padding: 1.5rem 1rem;
+  }
+
+  /* 2. On réduit la taille du titre pour que le bouton + rentre bien */
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .breadcrumb {
+    display: block; /* Fait passer le fil d'Ariane en dessous du titre */
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  /* 3. L'ASTUCE : On empile les filtres verticalement ! */
+  .filters-toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* On force les barres de recherche et les menus déroulants à prendre toute la largeur */
+  .filters-toolbar .filter-select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 4. On s'assure qu'il n'y ait qu'une seule carte SAE par ligne */
+  .sae-grid {
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+  }
+
+  /* 5. On adapte la fenêtre d'ajout de SAE pour qu'elle ne déborde pas */
+  .modal-content-center {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .form-row-modal {
+    flex-direction: column;
+    gap: 0;
+  }
+}
