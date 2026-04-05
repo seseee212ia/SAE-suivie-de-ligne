@@ -1,0 +1,142 @@
+.dashboard-layout { display: flex; flex-direction: column; width: 100%; height: 100%; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
+.main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
+
+/* CONTENU DE LA PAGE */
+.content-area { padding: 2rem 3rem; overflow-y: auto; width: 100%; box-sizing: border-box;}
+.breadcrumb { font-size: 0.8rem; color: #6b7280; font-weight: normal; margin-left: 10px;}
+.divider { border: 0; height: 1px; background: #d1d5db; margin-bottom: 2rem; }
+
+/* CALENDRIER */
+.timeline { margin-bottom: 3rem; width: 100%; }
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+.months-container, .days-container {
+  width: 100%;
+}
+
+.months, .days { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 1rem; 
+  align-items: center; 
+}
+
+.months { font-weight: 600; color: #9ca3af; font-size: 0.9rem; }
+.month-pill { background: none; border: none; padding: 0.4rem 0.2rem; margin-right: 0.5rem; transition: 0.2s; border-bottom: 2px solid transparent; font-family: inherit;}
+.active-month { color: #312e81; border-bottom: 2px solid #312e81; }
+
+.days { color: #6b7280; font-size: 0.9rem; }
+.day-circle { background: none; font-family: inherit; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid transparent; transition: 0.2s; flex-shrink: 0;}
+.active-day { color: #312e81; font-weight: bold; border: 2px solid #312e81; background: transparent;}
+
+/* GRILLE SAE */
+h2 { font-size: 1.2rem; color: #111827; margin-bottom: 1rem;}
+.sae-grid { display: flex; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.sae-card { background: white; padding: 1rem; border-radius: 12px; width: 220px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #f3f4f6; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;}
+.sae-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.sae-title { font-size: 1rem; font-weight: 600; margin: 0 0 10px 0; color: #1f2937; }
+.sae-gradient { height: 130px; border-radius: 8px; margin-bottom: 1rem; }
+.sae-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; border-top: 1px solid #f3f4f6; padding-top: 10px;}
+.no-sae { color: #6b7280; font-style: italic; }
+
+/* FORMULAIRE AJOUT SAE */
+.add-sae-section { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 900px; margin-bottom: 2rem;}
+
+/* Nouveau conteneur Flexbox pour aligner le titre et le bouton */
+.add-sae-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.add-sae-header h3 { 
+  margin: 0; /* On retire les marges pour un alignement parfait */
+  font-size: 1.1rem; 
+  color: #111827;
+}
+
+.form-row { display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1rem; flex-wrap: wrap;}
+.input-title { flex: 1; min-width: 200px; padding: 0.8rem 1rem; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Inter', sans-serif;}
+.input-select { padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 8px; background: white; cursor: pointer; color: #111827;} 
+
+/* Nouveaux styles pour les dates */
+.date-group { display: flex; flex-direction: column; gap: 5px; }
+.date-label { font-size: 0.8rem; color: #4b5563; font-weight: 600; margin-left: 2px;}
+.input-date { padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 8px; color: #4b5563;}
+
+.btn-add-circle { background-color: #3b82f6; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);}
+.btn-add-circle:hover { background-color: #2563eb; transform: scale(1.05);}
+.input-desc { width: 100%; box-sizing: border-box; padding: 1rem; border: 1px solid #d1d5db; border-radius: 8px; min-height: 120px; font-family: 'Inter', sans-serif; resize: vertical;}
+.success-msg { color: #059669; background: #d1fae5; padding: 0.8rem; border-radius: 6px; margin-top: 1rem; font-weight: 500;}
+
+/* ==========================================================
+   MODE SOMBRE GLOBAL
+   ========================================================== */
+:global(.dark-theme) { background-color: #111827 !important; color: #ffffff !important; }
+:global(.dark-theme .dashboard-layout) { background-color: #111827 !important; color: #ffffff !important; }
+
+:global(.dark-theme aside),
+:global(.dark-theme aside > div),
+
+:global(.dark-theme .sae-card), 
+:global(.dark-theme .add-sae-section), 
+:global(.dark-theme .modal-content-center) { 
+  background: #1f2937 !important; border-color: #374151 !important; color: #ffffff !important; 
+}
+
+:global(.dark-theme h1), 
+:global(.dark-theme h2), 
+:global(.dark-theme h3),
+:global(.dark-theme span),
+:global(.dark-theme p),
+:global(.dark-theme div:not(.sae-gradient)), 
+:global(.dark-theme li),
+:global(.dark-theme a),
+:global(.dark-theme button) { color: #ffffff !important; }
+
+:global(.dark-theme input:not([type="checkbox"])), 
+:global(.dark-theme select), 
+:global(.dark-theme textarea) { 
+  background-color: #374151 !important; 
+  color: #ffffff !important; 
+  border-color: #4b5563 !important; 
+}
+
+:global(.dark-theme select option) {
+  background-color: #374151 !important; color: #ffffff !important;
+}
+
+:global(.dark-theme input::placeholder), 
+:global(.dark-theme textarea::placeholder) { color: #ffffff !important; }
+
+:global(.dark-theme .feature-item), 
+:global(.dark-theme .notif-item), 
+:global(.dark-theme .action-item),
+:global(.dark-theme .sae-info) { border-color: #374151 !important; color: #ffffff !important;}
+
+:global(.dark-theme .action-item:hover) { background-color: #374151 !important; color: #60a5fa !important; }
+:global(.dark-theme .text-red:hover) { background-color: #7f1d1d !important; color: #f87171 !important; }
+
+:global(.dark-theme .icon-btn) { color: #ffffff !important; }
+:global(.dark-theme .svg-icon) { filter: brightness(0) invert(1) !important; }
+:global(.dark-theme .user-profile span) { color: #60a5fa !important; }
+:global(.dark-theme .text-red) { color: #ef4444 !important; }
+:global(.dark-theme .date-label) { color: #d1d5db !important; }
+
+:global(.dark-theme img[src*="logo-mmi"]) {
+  content: url("../assets/logo-mmi (1).svg") !important;
+}
+
+:global(.dark-theme .months .month-pill) { color: #9ca3af !important; }
+:global(.dark-theme .active-month) { color: #60a5fa !important; border-bottom: 2px solid #60a5fa !important; background: transparent !important; }
+
+:global(.dark-theme .days .day-circle) { color: #d1d5db !important; }
+:global(.dark-theme .active-day) { color: #60a5fa !important; border: 2px solid #60a5fa !important; background: transparent !important; }
+
+:global(.dark-theme .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
+:global(.dark-theme .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}

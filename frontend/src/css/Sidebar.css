@@ -1,0 +1,148 @@
+/* style globale mode sombre */
+:global(html.dark-theme) .logo-mmi-mask {
+    background-color: #e1e1e1;
+}
+
+:global(html.dark-theme) nav a:not(.router-link-active) .menu-icon {
+    filter: brightness(0) invert(0.9);
+}
+
+:global(html.dark-theme) nav a.router-link-active {
+    background-color: #2a355c; 
+    color: #ffffff; 
+}
+
+/* style sidebar (Base Desktop) */
+.sidebar {
+    width: 235px; 
+    height: 100vh;
+    background-color: var(--bg-barres, #ffffff);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease; 
+    padding: 24px; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+}
+
+.logo-container {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.logo-mmi-mask {
+    width: 100%;
+    height: 80px;
+    max-width: 200px;
+    display: block;
+    -webkit-mask-image: var(--logo-url);
+    mask-image: var(--logo-url);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    background-color: #4d2465;
+    transition: height 0.3s ease, background-color 0.3s ease;
+}
+
+nav {
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+nav li {
+    margin-bottom: 0;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--texte-barres, #4b5563); 
+    font-weight: 500;
+    padding: 12px 24px;
+    margin: 0 -24px; 
+    transition: all 0.2s ease;
+    white-space: nowrap; 
+    border-radius: 0 20px 20px 0; 
+}
+
+nav a:hover {
+    background-color: rgba(150, 150, 150, 0.15);
+}
+
+.menu-icon {
+    width: 22px; 
+    height: 22px;
+    transition: filter 0.3s ease; 
+    flex-shrink: 0; 
+}
+
+nav a.router-link-active {
+    background-color: #8fa6ff; 
+    color: white; 
+    font-weight: 600; 
+}
+
+nav a.router-link-active .menu-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* ==========================================================
+   RESPONSIVE - MENU MOBILE ET TABLETTE (Menu Tiroir)
+   ========================================================== */
+.sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%); /* Masque la sidebar en dehors de l'écran par défaut */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        /* FIX LOGO CACHÉ : On décale le contenu vers le bas pour compenser la Highbar de 90px */
+        padding-top: 110px; 
+    }
+
+    .sidebar.is-open {
+        transform: translateX(0); /* Fait glisser le menu dans l'écran */
+        box-shadow: 5px 0 25px rgba(0,0,0,0.2);
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(2px);
+        z-index: 190;
+    }
+    
+    /* FIX LOGO : On force le logo à s'afficher dans le menu tiroir mobile ! */
+    .logo-container {
+        display: flex !important; 
+        margin-top: 10px; /* Adapté à cause du nouveau padding-top */
+        margin-bottom: 30px;
+    }
+    
+    .logo-mmi-mask {
+        height: 60px; /* On le rend juste un tout petit peu plus compact pour le mobile */
+    }
+}

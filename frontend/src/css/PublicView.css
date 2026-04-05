@@ -1,0 +1,77 @@
+/* on fige le fond */
+.fixed-interface-container {
+  height: 100%; 
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  text-align: left;
+  margin-bottom: 30px; /* espace aéré avant les cartes */
+  position: relative;
+  z-index: 1000;
+}
+
+/* On stylise la ligne de séparation sous le titre SAE */
+.page-header hr {
+  border: none;
+  border-top: 1px solid var(--bordure); /* S'adapte au mode clair/sombre */
+  margin-top: 15px;
+  transition: border-color 0.3s ease;
+}
+
+/* Style pour aligner filtres */
+.filters-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.filter-select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: var(--bg-secondaire); 
+  color: var(--texte-principal); 
+  
+  /* On utilise la variable dédiée aux bordures */
+  border: 1px solid var(--bordure); 
+  
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  
+  /* Transition pour le mode sombre */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* effet au survol du menu déroulant */
+.filter-select:hover {
+  border-color: #8fa6ff;
+}
+
+.animation-zone {
+  flex-grow: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 180px;
+  position: relative;
+  z-index: 0;
+}
+
+.full-size-card {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+/* Filtre daltonien défini dans le store Pinia */
+.daltonien-filter {
+  filter: saturate(0.5) contrast(1.2) !important; /* Ajuste selon tes besoins */
+}
+

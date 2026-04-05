@@ -1,0 +1,18 @@
+.card-swap-container {
+  position: relative;
+  perspective: 1200px;
+  overflow: visible;
+}
+
+.card-gsap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 12px;
+  background: transparent;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  cursor: pointer;
+}

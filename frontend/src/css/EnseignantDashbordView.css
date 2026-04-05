@@ -1,0 +1,69 @@
+.dashboard-container { padding: 40px; box-sizing: border-box; height: 100%; overflow-y: auto; color: var(--texte-principal); }
+
+/* --- EN-TÊTE --- */
+.dashboard-header { margin-bottom: 30px; }
+.title-section { display: flex; align-items: baseline; gap: 20px; }
+.title-section h2 { margin: 0; font-size: 1.5rem; font-weight: 500; outline: none;}
+.breadcrumb { font-size: 0.9rem; color: #888; outline: none;}
+.breadcrumb strong { color: var(--texte-principal); }
+.separator { border: none; border-top: 1px solid var(--bordure); margin-top: 20px; transition: border-color 0.3s ease; }
+
+/* --- MISE EN PAGE PRINCIPALE --- */
+.main-content { display: flex; gap: 40px; }
+.sae-section { flex: 2; }
+.annonces-section { flex: 1; max-width: 350px; }
+.section-title { margin-top: 0; margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; outline: none;}
+.no-sae-msg { color: #888; font-style: italic; outline: none;}
+
+/* --- CARTES SAE --- */
+.sae-grid { display: flex; gap: 25px; flex-wrap: wrap; }
+.sae-card { background-color: var(--bg-principale); border: 1px solid var(--bordure); border-radius: 12px; width: 280px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: background-color 0.3s ease, border-color 0.3s ease; outline: none;}
+.sae-visual { height: 160px; margin: 15px; border-radius: 8px; }
+.sae-info { padding: 0 15px 10px 15px; }
+.sae-info h4 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.sae-footer { display: flex; justify-content: space-between; padding: 15px; border-top: 1px solid var(--bordure); color: #888; font-size: 0.85rem; }
+.icons-container {
+  display: flex;
+  gap: 15px; 
+  align-items: center;
+}
+
+.action-icon {
+  width: 24px; 
+  height: 24px;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+/* --- CARTES ANNONCES --- */
+.annonces-list { display: flex; flex-direction: column; gap: 15px; }
+.annonce-card { background-color: var(--bg-principale); border: 1px solid var(--bordure); border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: background-color 0.3s ease, border-color 0.3s ease; outline: none;}
+.annonce-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.annonce-title-wrap { display: flex; align-items: center; gap: 10px; }
+.annonce-title { margin: 0; font-size: 0.95rem; font-weight: 600; }
+.annonce-meta { display: flex; flex-direction: column; align-items: flex-end; font-size: 0.75rem; color: #aaa; }
+.annonce-text { margin-top: 15px; font-size: 0.85rem; color: var(--texte-principal); white-space: pre-line; opacity: 0.8; }
+
+/* Ajustement de taille si l'icône dans le titre est trop grande */
+  .annonce-title-wrap .action-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+/* ==========================================================
+   STYLES D'ACCESSIBILITÉ (Navigation au clavier)
+   ========================================================== */
+.title-section h2:focus,
+.breadcrumb:focus,
+.section-title:focus,
+.no-sae-msg:focus {
+    outline: 2px solid #8fa6ff;
+    border-radius: 4px;
+    outline-offset: 4px;
+}
+
+.sae-card:focus,
+.annonce-card:focus {
+    outline: 2px solid #8fa6ff;
+    outline-offset: 2px;
+}

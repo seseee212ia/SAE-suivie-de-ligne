@@ -1,0 +1,70 @@
+/* Le conteneur principal de la carte */
+.sae-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  
+  /* 1. On utilise le fond secondaire pour que la carte se détache du fond de la page */
+  background: var(--bg-secondaire); 
+  
+  /* 2. On utilise notre variable dédiée aux bordures */
+  border: 1px solid var(--bordure); 
+  color: var(--texte-principal); 
+  
+  border-radius: 4px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08);
+  
+  text-decoration: none;
+  box-sizing: border-box;
+  
+  /* 3. On anime aussi le changement de thème */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Petit effet au survol */
+.sae-card:hover {
+  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px); /* J'ai remis le soulèvement au survol qui avait disparu ! */
+}
+
+/* Le cadre qui englobe le dégradé (Padding = bordure) */
+.card-visual-wrapper {
+  flex-grow: 1; 
+  padding: 15px 15px 20px 15px; 
+  display: flex;
+  
+  /* Ligne de séparation avec la variable de bordure */
+  border-bottom: 1px solid var(--bordure); 
+}
+
+/* Le bloc avec la couleur (Le dégradé) */
+.card-visual {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px; 
+}
+
+/* La zone de texte en bas */
+.card-info {
+  height: 60px; 
+  display: flex;
+  align-items: center;
+  padding: 0 15px; 
+}
+
+/* Typographie du titre */
+.sae-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800; 
+  color: var(--texte-principal); 
+}
+
+/* Typographie du semestre */
+.sae-semester {
+  margin-left: 10px;
+  font-size: 0.75rem;
+  color: #aaa; /* Ce gris passe très bien en mode clair comme en mode sombre */
+  font-weight: normal;
+}

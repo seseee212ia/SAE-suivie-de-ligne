@@ -1,0 +1,38 @@
+[
+  {
+    "numEtudiant": 22104567,
+    "nom": "DUPONT",
+    "prenom": "Jean",
+    "password": "password123",
+    "promotion": 1,
+    "specialite": null,
+    "roles": ["ROLE_USER"]
+  },
+  {
+    "numEtudiant": 22108912,
+    "nom": "MARTIN",
+    "prenom": "Alice",
+    "password": "secure_password",
+    "promotion": 2,
+    "specialite": "Création numérique",
+    "roles": ["ROLE_USER"]
+  },
+  {
+    "numEtudiant": 22003456,
+    "nom": "LEFEBVRE",
+    "prenom": "Lucas",
+    "password": "lucas_password",
+    "promotion": 3,
+    "specialite": "Développement web et dispositifs interactifs",
+    "roles": ["ROLE_USER"]
+  },
+  {
+    "numEtudiant": 22209876,
+    "nom": "BERNARD",
+    "prenom": "Chloé",
+    "password": "chloe_password",
+    "promotion": 2,
+    "specialite": "Développement web et dispositifs interactifs",
+    "roles": ["ROLE_USER"]
+  }
+]

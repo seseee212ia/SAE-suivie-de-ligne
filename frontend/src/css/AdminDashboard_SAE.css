@@ -1,0 +1,274 @@
+.dashboard-layout { display: flex; flex-direction: column; width: 100%; height: 100%; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
+.main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
+
+.search-container { flex: 1; display: flex; align-items: center; margin-left: 20px;}
+
+.search-bar { display: flex; align-items: center; background: white; border-radius: 8px; padding: 0.6rem 1rem; width: 400px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+/* ==========================================================
+   MODALS (Fenêtres superposées)
+   ========================================================== */
+.modal-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(0,0,0,0.5); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000; 
+}
+
+.modal-content-center { 
+  background: white; 
+  padding: 2.5rem; 
+  border-radius: 12px; 
+  width: 400px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+  max-height: 90vh; 
+  overflow-y: auto;
+}
+
+/* Tailles alternatives pour les modales plus larges */
+.modal-lg { width: 500px; }
+.modal-xl { width: 600px; } 
+
+/* Typographie et structure interne de la modale */
+.modal-content-center h3 { 
+  margin-top: 0; 
+  color: #111827; 
+  margin-bottom: 1.5rem; 
+  font-size: 1.3rem;
+}
+
+.form-group-modal { 
+  margin-bottom: 1.2rem; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5rem;
+}
+
+.form-row-modal { 
+  display: flex; 
+  gap: 1rem; 
+}
+
+.flex-1 { flex: 1; }
+
+.form-group-modal label { 
+  font-size: 0.9rem; 
+  color: #374151; 
+  font-weight: 500;
+}
+
+/* Champs de saisie dans la modale */
+.input-full { 
+  width: 100%; 
+  padding: 0.8rem; 
+  border: 1px solid #d1d5db; 
+  border-radius: 6px; 
+  box-sizing: border-box; 
+  font-family: 'Inter', sans-serif;
+}
+.w-full { width: 100%; }
+
+.textarea-consigne { 
+  min-height: 100px; 
+  resize: vertical; 
+}
+
+.file-input { 
+  padding: 0.5rem; 
+  background: #f9fafb;
+}
+
+/* Boutons d'action en bas de la modale */
+.modal-actions { 
+  display: flex; 
+  justify-content: flex-end; 
+  gap: 1rem; 
+  margin-top: 2rem;
+}
+
+.btn-cancel { 
+  background: transparent; 
+  border: none; 
+  color: #6b7280; 
+  cursor: pointer; 
+  font-weight: 500;
+}
+
+.btn-confirm { 
+  background: #3b82f6; 
+  color: white; 
+  border: none; 
+  padding: 0.6rem 1.2rem; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  font-weight: 500;
+}
+
+/* --- MODIFICATION ICI : Taille fixe et espace aéré --- */
+.search-bar-inline { 
+  flex: 0 0 280px; /* Empêche la barre de s'étirer à l'infini, taille fixe de 280px */
+  width: 280px; 
+  border: 1px solid #d1d5db; 
+  box-shadow: none; 
+  margin-left: 2.5rem; /* Éloigne la barre du titre pour l'aérer */
+} 
+
+.search-icon-svg { width: 18px; height: 18px; margin-right: 10px; filter: invert(0.6); } 
+.search-input { border: none; outline: none; width: 100%; font-size: 0.95rem; font-family: 'Inter', sans-serif; background: transparent; }
+
+/* CONTENU DE LA PAGE : SPECIFIQUE A LA VUE SAE */
+.content-area { padding: 2rem 3rem; overflow-y: auto; width: 100%; box-sizing: border-box;}
+
+.page-header { display: flex; justify-content: space-between; align-items: center; }
+.header-left { display: flex; align-items: center; }
+.breadcrumb { font-size: 0.8rem; color: #6b7280; font-weight: normal; margin-left: 10px;}
+.divider { border: 0; height: 1px; background: #d1d5db; margin-bottom: 2rem; }
+
+/* Bouton d'ajout Figma-style */
+.btn-add-main {
+  background-color: #f59e0b; 
+  color: #111827; 
+  border: none;
+  border-radius: 8px; 
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+  transition: transform 0.2s;
+}
+.btn-add-main:hover { transform: scale(1.05); }
+
+.filters-toolbar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.filter-select {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.sae-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+  gap: 2rem; 
+  padding-bottom: 2rem;
+}
+
+.sae-card { 
+  background: white; 
+  padding: 1.2rem; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
+  border: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  cursor: pointer;
+}
+.sae-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+}
+
+.sae-image-container {
+  position: relative; 
+  margin-bottom: 1.2rem;
+}
+
+.sae-gradient { 
+  height: 150px; 
+  border-radius: 8px; 
+}
+
+.sae-card-actions {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  background: transparent; 
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.action-btn:hover { transform: scale(1.1); }
+
+.action-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.sae-title { font-size: 1.05rem; font-weight: 600; margin: 0 0 10px 0; color: #1f2937; }
+
+.sae-info { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 0.85rem; 
+  color: #6b7280; 
+  border-top: 1px solid #f3f4f6; 
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.urgent-date { color: #ef4444; font-weight: 600; } 
+
+.no-sae { grid-column: 1 / -1; color: #6b7280; font-style: italic; text-align: center; margin-top: 2rem;}
+
+/* ==========================================================
+   MODE SOMBRE GLOBAL
+   ========================================================== */
+:global(.dark-theme) { background-color: #111827 !important; color: #ffffff !important; }
+:global(.dark-theme .dashboard-layout) { background-color: #111827 !important; color: #ffffff !important; }
+:global(.dark-theme .search-bar) { background: #374151 !important; border: 1px solid #4b5563 !important; }
+:global(.dark-theme .search-input) { color: #ffffff !important; }
+:global(.dark-theme .search-input::placeholder) { color: #9ca3af !important; }
+:global(.dark-theme .search-icon-svg) { filter: brightness(0) invert(1) opacity(0.5) !important; }
+
+:global(.dark-theme aside),
+:global(.dark-theme aside > div),
+
+:global(.dark-theme .sae-card), 
+:global(.dark-theme .modal-content-center) { background: #1f2937 !important; border-color: #374151 !important; color: #ffffff !important; }
+
+:global(.dark-theme h1), :global(.dark-theme h2), :global(.dark-theme h3), :global(.dark-theme span), :global(.dark-theme p), :global(.dark-theme div:not(.sae-gradient)), :global(.dark-theme li), :global(.dark-theme a), :global(.dark-theme label) { color: #ffffff !important; }
+:global(.dark-theme input:not([type="checkbox"])), :global(.dark-theme select), :global(.dark-theme textarea) { background-color: #374151 !important; color: #ffffff !important; border-color: #4b5563 !important; }
+:global(.dark-theme .file-input) { background-color: #4b5563 !important; }
+:global(.dark-theme select option) { background-color: #374151 !important; color: #ffffff !important; }
+:global(.dark-theme input::placeholder), :global(.dark-theme textarea::placeholder) { color: #ffffff !important; }
+:global(.dark-theme .feature-item), :global(.dark-theme .notif-item), :global(.dark-theme .action-item), :global(.dark-theme .sae-info) { border-color: #374151 !important; color: #ffffff !important;}
+:global(.dark-theme .action-item:hover) { background-color: #374151 !important; color: #60a5fa !important; }
+:global(.dark-theme .text-red:hover) { background-color: #7f1d1d !important; color: #f87171 !important; }
+:global(.dark-theme .icon-btn) { color: #ffffff !important; }
+:global(.dark-theme .svg-icon) { filter: brightness(0) invert(1) !important; }
+:global(.dark-theme .user-profile span) { color: #60a5fa !important; }
+:global(.dark-theme .text-red) { color: #ef4444 !important; }
+:global(.dark-theme img[src*="logo-mmi"]) { content: url("../assets/logo-mmi (1).svg") !important; }
+:global(.dark-theme .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #4b5563 !important; color: white !important;}
+:global(.dark-theme .btn-toggle-action:hover:not(.active-zoom):not(.reset-btn)) { background-color: #6b7280 !important;}

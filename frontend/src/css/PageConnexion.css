@@ -1,0 +1,123 @@
+.login-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f7f6; 
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.main-title {
+    color: #7b61ff; 
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.subtitle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.line {
+    flex: 1;
+    border: none;
+    border-top: 3px solid #e5e5e5;
+    max-width: 60px;
+}
+
+.subtitle {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.role-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #d0c4fa; 
+    color: #7b61ff;
+}
+
+.role-btn:hover,
+.role-btn:focus {
+    background-color: #7b61ff; 
+    color: white;
+    outline: none; 
+}
+
+.back-link-container {
+    margin-top: 30px;
+}
+
+.back-link {
+    color: #888;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #7b61ff;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C)
+   ========================================== */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 30px 20px; /* Réduit le padding intérieur sur mobile */
+        width: 90%; /* Garde une marge avec les bords de l'écran */
+        max-width: none; /* Permet à la largeur de 90% de s'appliquer */
+    }
+
+    .main-title {
+        font-size: 2rem; /* Titre un peu plus petit pour mobile */
+    }
+
+    .subtitle-wrapper {
+        gap: 10px; /* Espace réduit entre les lignes et le texte */
+        margin-bottom: 30px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .line {
+        max-width: 40px; /* Lignes décoratives plus courtes sur petit écran */
+    }
+
+    .role-btn {
+        padding: 14px; /* Boutons légèrement moins hauts */
+        font-size: 1rem;
+    }
+}

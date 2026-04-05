@@ -1,0 +1,103 @@
+/* --- CONTENEUR GLOBAL --- */
+.mes-sae-container { padding: 40px; box-sizing: border-box; height: 100%; overflow-y: auto; color: var(--texte-principal); }
+
+/* --- EN-TÊTE --- */
+.page-header { margin-bottom: 30px; }
+.title-section { display: flex; align-items: baseline; gap: 20px; }
+.title-section h2 { margin: 0; font-size: 1.5rem; font-weight: 500; outline: none; }
+.breadcrumb { font-size: 0.9rem; color: #888; outline: none; }
+.breadcrumb strong { color: var(--texte-principal); }
+.separator { border: none; border-top: 1px solid var(--bordure); margin-top: 20px; }
+
+/* --- FILTRES --- */
+.filters-row { display: flex; gap: 15px; margin-bottom: 30px; }
+.custom-select {
+  padding: 8px 30px 8px 15px;
+  border-radius: 20px;
+  background-color: var(--bg-principale);
+  color: var(--texte-principal);
+  border: 1px solid var(--bordure);
+  outline: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* --- KANBAN BOARD --- */
+.kanban-board { 
+  display: flex; 
+  gap: 30px; 
+  overflow-x: auto; 
+  padding-bottom: 20px; 
+}
+.kanban-column { flex: 1; min-width: 320px; background-color: var(--bg-secondaire); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; }
+.column-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.col-title-wrap { display: flex; align-items: center; gap: 10px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.col-title { margin: 0; font-size: 1.1rem; font-weight: 600; outline: none; }
+.badge { background-color: #e5e7eb; color: #4b5563; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
+:global(html.dark-theme) .badge { background-color: #3b3b3b; color: #d1d5db; }
+.add-btn { background-color: #e0e7ff; color: #4f46e5; border: none; width: 28px; height: 28px; border-radius: 6px; font-size: 1.2rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+:global(html.dark-theme) .add-btn { background-color: #2a355c; color: #8fa6ff; }
+.col-line { height: 3px; border-radius: 3px; width: 100%; margin-bottom: 20px; }
+
+/* --- CARTES KANBAN --- */
+.cards-list { display: flex; flex-direction: column; gap: 15px; position: relative; }
+.sae-task-card { background-color: var(--bg-principale); border: 1px solid var(--bordure); border-radius: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease; position: relative; z-index: 2; outline: none; }
+.sae-task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.category-tag { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+:global(html.dark-theme) .category-tag { filter: brightness(0.9) contrast(1.2); }
+.more-options { color: #aaa; cursor: pointer; letter-spacing: 1px; }
+.card-title { margin: 0 0 10px 0; font-size: 1.1rem; }
+.card-desc { margin: 0 0 15px 0; font-size: 0.85rem; color: #777; line-height: 1.4; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--bordure); padding-top: 12px; font-size: 0.8rem; color: #888; }
+.meta-item { display: flex; align-items: center; gap: 5px; }
+
+/* Simulation des images de la maquette */
+.img-placeholder { width: 100%; height: 140px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; }
+.flower-img { background: linear-gradient(to bottom right, #f8fafc, #e2e8f0); }
+:global(html.dark-theme) .flower-img { background: linear-gradient(to bottom right, #333, #444); }
+.gray-box { background-color: #cbd5e1; }
+:global(html.dark-theme) .gray-box { background-color: #4b5563; }
+
+/* --- EFFET DRAG & DROP (SAE 303) --- */
+.is-dragging { transform: rotate(3deg) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.1); cursor: grabbing; }
+.drop-zone-placeholder { height: 160px; border: 2px dashed #a5b4fc; border-radius: 12px; background-color: rgba(165, 180, 252, 0.1); margin-bottom: 15px; position: absolute; top: 180px; width: 100%; z-index: 1; }
+:global(html.dark-theme) .drop-zone-placeholder { border-color: #4f46e5; background-color: rgba(79, 70, 229, 0.1); }
+
+/* ==========================================================
+   BARRE DE DÉFILEMENT (Scrollbar) ET ACCESSIBILITÉ
+   ========================================================== */
+
+/* Apparence personnalisée de la scrollbar horizontale du Kanban */
+.kanban-board::-webkit-scrollbar {
+  height: 10px;
+}
+.kanban-board::-webkit-scrollbar-track {
+  background: var(--bg-secondaire);
+  border-radius: 8px;
+}
+.kanban-board::-webkit-scrollbar-thumb {
+  background-color: var(--bordure);
+  border-radius: 8px;
+  border: 2px solid var(--bg-secondaire);
+}
+.kanban-board::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+/* Ajout d'un focus visuel clair lors de la navigation au clavier (Touche TAB) */
+.sae-task-card:focus,
+.custom-select:focus,
+.col-title:focus,
+.title-section h2:focus,
+.breadcrumb:focus {
+  outline: 2px solid #8fa6ff;
+  outline-offset: 4px;
+  border-radius: 8px;
+}

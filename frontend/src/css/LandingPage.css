@@ -1,0 +1,171 @@
+.landing-container {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Tout le texte est blanc sur cette page */
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+/*Version ordinateur*/
+
+/* LOGO */
+.landing-header {
+    position: absolute;
+    top: -5px;
+    left: -35px;
+    z-index: 10;
+}
+.logo-mmi {
+    height: 80px; /* Taille appropriée pour le logo */
+}
+
+/* Glassmorphism*/
+.glass-panel {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    padding: 80px 60px;
+    background: rgba(255, 255, 255, 0.1); /* Fond semi-transparent */
+    backdrop-filter: blur(20px); /* L'effet de flou sur le fond */
+    -webkit-backdrop-filter: blur(20px); /* Support pour Safari */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure subtile */
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 5;
+}
+
+.circles-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; /* Les cercles ne bloquent pas les clics */
+}
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: hard-light; /* Pour un effet de lumière plus prononcé */
+}
+
+/* Cibles des cercles (Positions pour ordinateur) */
+.circle-1-purple {
+    width: 100px; height: 100px;
+    background: #C2A3F9; /* Violet-bleu */
+    top: 3%; left: 0;
+}
+.circle-2-yellow {
+    width: 60px; height: 60px;
+    background: #F8F9A3; /* Jaune clair */
+    top: 50%; right: -3%;
+}
+.circle-3-green {
+    width: 40px; height: 40px;
+    background: #CAF9A3; /* Vert clair */
+    bottom: 10%; left: 20%;
+}
+.circle-4-blue {
+    width: 80px; height: 80px;
+    background: #A3B4F9; /* Bleu clair */
+    bottom: 10%; right: 0;
+}
+
+/* Effets de flou ou net */
+.blur {
+    filter: blur(50px);
+}
+
+/* contenu texte */
+.text-content {
+    position: relative;
+    z-index: 6; /* Au-dessus des cercles */
+}
+.text-content h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    line-height: 1.3;
+}
+.text-content p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 60px;
+    opacity: 0.9;
+}
+
+/* bouton cta */
+.cta-button {
+    background-color: #8fa6ff; /* Le bleu-violet d'accentuation */
+    color: white;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(143, 166, 255, 0.4);
+}
+
+.cta-button:hover {
+    background-color: #a6b9ff; /* Un peu plus clair au survol */
+    transform: translateY(-2px); /* Léger soulèvement */
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C)
+   ========================================== */
+@media (max-width: 768px) {
+    .glass-panel {
+        padding: 40px 20px;
+        width: 95%;
+    }
+    .text-content h1 {
+        font-size: 1.5rem;
+    }
+    .text-content p {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    /* On garde le logo en haut à gauche, juste un peu plus petit pour mobile */
+    .landing-header {
+        top: 5px;
+        left: -30px;
+    }
+    .logo-mmi {
+        height: 80px;
+    }
+
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    /* On décale les bulles vers l'extérieur du panneau transparent 
+       pour qu'elles ne cachent jamais le texte sur les petits écrans */
+    .circle-1-purple {
+        top: -15%; 
+        left: 1%;
+    }
+    .circle-2-yellow {
+        top: -5%; /* Remonté vers le haut pour ne plus cacher le texte */
+        right: -3%;
+    }
+    .circle-3-green {
+        bottom: -5%;
+        left: 5%;
+    }
+    .circle-4-blue {
+        bottom: -5%;
+        right: -2%;
+    }
+}

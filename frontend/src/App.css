@@ -1,0 +1,61 @@
+/* VARIABLES DE THEME */
+:root {
+  --bg-principale: #ffffff;
+  --texte-principal: #333333;
+  --bg-secondaire: #f4f7f6;
+  --bg-barres: #B4D4FE;
+  --texte-barres: #333333;
+  --bordure: #e5e5e5;
+}
+
+html.dark-theme {
+  --bg-principale: #202020;
+  --bg-secondaire: #2b2b2b;
+  --bg-barres: #181818;
+  --texte-principal: #e1e1e1;
+  --texte-barres: #e1e1e1;
+  --bordure: #3b3b3b;
+}
+html.dark-theme .logo-mmi-mask {
+  background-color: #ffffff !important; 
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden !important; 
+  background-color: var(--bg-principale); 
+  color: var(--texte-principal);
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.content {
+  margin-left: 280px;
+  margin-top: 90px;
+  width: calc(100vw - 280px);
+  height: calc(100vh - 90px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* STYLE SANS NAVIGATION (Plein écran) */
+.content.full-screen {
+  margin-left: 0;
+  margin-top: 0;
+  width: 100vw;
+  height: 100vh;
+}

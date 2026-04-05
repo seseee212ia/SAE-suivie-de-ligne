@@ -1,0 +1,530 @@
+.dashboard-layout { display: flex; flex-direction: column; width: 100%; height: 100%; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
+.main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
+
+/* ==========================================================
+   MODALS (Fenêtres superposées)
+   ========================================================== */
+.modal-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(0,0,0,0.5); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000; 
+}
+
+.modal-content-center { 
+  background: white; 
+  padding: 2.5rem; 
+  border-radius: 12px; 
+  width: 400px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+  max-height: 90vh; 
+  overflow-y: auto;
+}
+
+/* Tailles alternatives pour les modales plus larges */
+.modal-lg { width: 500px; }
+.modal-xl { width: 600px; } 
+
+/* Typographie et structure interne de la modale */
+.modal-content-center h3 { 
+  margin-top: 0; 
+  color: #111827; 
+  margin-bottom: 1.5rem; 
+  font-size: 1.3rem;
+  outline: none;
+}
+
+.form-group-modal { 
+  margin-bottom: 1.2rem; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5rem;
+}
+
+.form-row-modal { 
+  display: flex; 
+  gap: 1rem; 
+}
+
+.flex-1 { flex: 1; }
+
+.form-group-modal label { 
+  font-size: 0.9rem; 
+  color: #374151; 
+  font-weight: 500;
+  outline: none;
+}
+
+/* Champs de saisie dans la modale */
+.input-full { 
+  width: 100%; 
+  padding: 0.8rem; 
+  border: 1px solid #d1d5db; 
+  border-radius: 6px; 
+  box-sizing: border-box; 
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+.input-full:focus {
+  border-color: #3b82f6;
+}
+.w-full { width: 100%; }
+
+.textarea-consigne { 
+  min-height: 100px; 
+  resize: vertical; 
+}
+
+.file-input { 
+  padding: 0.5rem; 
+  background: #f9fafb;
+}
+
+/* Boutons d'action en bas de la modale */
+.modal-actions { 
+  display: flex; 
+  justify-content: flex-end; 
+  gap: 1rem; 
+  margin-top: 2rem;
+}
+
+.btn-cancel { 
+  background: transparent; 
+  border: none; 
+  color: #6b7280; 
+  cursor: pointer; 
+  font-weight: 500;
+  outline: none;
+}
+
+.btn-confirm { 
+  background: #3b82f6; 
+  color: white; 
+  border: none; 
+  padding: 0.6rem 1.2rem; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  font-weight: 500;
+  outline: none;
+}
+
+/* ZONE CONTENU */
+.content-area { padding: 2rem 3rem; overflow-y: auto; width: 100%; box-sizing: border-box;}
+.page-header h1 { margin: 0; font-size: 1.5rem; outline: none;}
+.breadcrumb-active { color: #111827; font-weight: 700; }
+.divider { border: 0; height: 2px; background: #e5e7eb; margin-top: 10px; margin-bottom: 2rem; }
+.italic-text { color: #9ca3af; font-style: italic; font-size: 0.85rem; outline: none;}
+
+/* GRILLE PRINCIPALE (Gauche / Droite) */
+.detail-grid {
+  display: flex;
+  gap: 2rem;
+  align-items: stretch; /* Étire les colonnes à la même hauteur */
+}
+.main-column {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.side-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* CARTES GENERIQUES */
+.card-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  border: 1px solid #f3f4f6;
+}
+
+/* CARTE SAE PRINCIPALE */
+.sae-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.tag-filiere {
+  background-color: #fef08a;
+  color: #92400e;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  outline: none;
+}
+.sae-title-large {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.6rem;
+  color: #1f2937;
+  outline: none;
+}
+.sae-banner {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.sae-description-block h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  color: #111827;
+  outline: none;
+}
+.sae-description-block p {
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  outline: none;
+}
+
+/* LIGNE AJOUT / LISTE MEMBRES */
+.members-management-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch; /* Étire les cartes enfants (Ajout & Liste) */
+}
+.flex-3 { flex: 3; } /* Elargit la liste des membres */
+
+/* Formulaire Ajout Membre */
+.add-member-card h3 { margin-top: 0; font-size: 1.1rem; margin-bottom: 1.5rem; outline: none;}
+.form-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+.flex-col-mobile { flex-direction: column; align-items: stretch;}
+.input-select {
+  padding: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  outline: none;
+}
+.input-select:focus { border-color: #3b82f6; }
+.input-search-member {
+  padding: 0.8rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+.input-search-member:focus { border-color: #3b82f6; }
+.btn-add-circle {
+  background-color: #3b82f6; 
+  color: white;
+  border: none;
+  height: 42px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  outline: none;
+}
+.btn-add-circle:hover { background-color: #2563eb; }
+
+/* Liste des Membres */
+.members-list-card {
+  display: flex;
+  flex-direction: column; 
+}
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.card-header-flex h3 { margin: 0; font-size: 1.2rem; outline: none; }
+.members-section h4 {
+  font-size: 1rem;
+  color: #111827;
+  margin: 0 0 0.8rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 5px;
+  outline: none;
+}
+.clean-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+.clean-list li {
+  padding: 0.4rem 0;
+  font-weight: 500;
+  outline: none;
+}
+
+.list-separated li { border-bottom: 1px solid #f9fafb; padding: 0.6rem 0;}
+.list-separated li:last-child { border-bottom: none;}
+.mt-20 { margin-top: 20px; }
+
+/* Table Etudiants */
+.table-header {
+  display: flex;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.table-header span { flex: 1; outline: none; }
+.table-row {
+  display: flex;
+  align-items: center;
+}
+.table-row span { flex: 1; }
+.text-right { text-align: right; }
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+.status-default { background-color: #f3f4f6; color: #4b5563; }
+
+/* COLONNE DROITE (Infos / Consignes) */
+.info-card h3, .consigne-card h3 { margin-top: 0; font-size: 1.2rem; margin-bottom: 1rem; outline: none;}
+.info-content {
+  background-color: #f8fafc;
+  padding: 1.2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+.info-content p { margin: 0.8rem 0; outline: none; }
+.info-content strong { color: #111827; }
+.date-highlight { font-size: 1.1rem; color: #1e40af;}
+
+.consigne-card { flex: 1; display: flex; flex-direction: column;}
+.consigne-content { flex: 1; background: #f8fafc; padding: 1.2rem; border-radius: 8px;}
+.consigne-content p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0;
+  white-space: pre-line; 
+  line-height: 1.6;
+  outline: none;
+}
+
+/* Boutons SVG d'action */
+.action-btn {
+  width: 32px;
+  height: 32px;
+  background: transparent; 
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+  outline: none;
+}
+.action-btn:hover { transform: scale(1.1); }
+.action-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Conteneur des "badges" (pilules) pour les membres déjà assignés */
+.members-tags-container { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+  padding: 15px; 
+  background: #f8fafc; /* Gris très léger */
+  border-radius: 8px; 
+  border: 1px solid #e5e7eb; 
+  min-height: 60px;
+}
+
+/* Style individuel de chaque membre (Badge cliquable) */
+.clickable-member-tag { 
+  background: white; 
+  color: #374151; 
+  padding: 6px 12px; 
+  border-radius: 20px; 
+  font-size: 0.9rem; 
+  cursor: pointer; 
+  transition: all 0.2s ease; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; /* Espace entre le nom et la croix */
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  outline: none;
+}
+
+/* Effet au survol (devient rouge clair pour indiquer la suppression) */
+.clickable-member-tag:hover { 
+  background: #fef2f2; 
+  color: #b91c1c; 
+  border-color: #fca5a5;
+  transform: translateY(-1px); /* Petit effet de soulèvement */
+}
+
+/* Ligne pour modifier le groupe d'un étudiant */
+.status-edit-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 10px; 
+  padding: 12px 15px; 
+  background: white; 
+  border-radius: 8px; 
+  border: 1px solid #e5e7eb;
+  transition: border-color 0.2s;
+}
+
+.status-edit-row:hover {
+  border-color: #d1d5db;
+}
+
+.status-edit-row span {
+  font-weight: 500;
+  color: #374151;
+  outline: none;
+}
+
+/* Menu déroulant pour changer de groupe */
+.input-select-small { 
+  padding: 6px 12px; 
+  border-radius: 6px; 
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #111827;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-select-small:focus {
+  border-color: #3b82f6; /* Bleu quand sélectionné */
+}
+
+/* Utilitaires margin/padding */
+.mt-15 { margin-top: 15px; }
+
+
+/* ==========================================================
+   STYLES D'ACCESSIBILITÉ (Navigation au clavier)
+   ========================================================== */
+.page-header h1:focus,
+.tag-filiere:focus,
+.sae-title-large:focus,
+.sae-description-block h3:focus,
+.sae-description-block p:focus,
+.add-member-card h3:focus,
+.card-header-flex h3:focus,
+.members-section h4:focus,
+.clean-list li:focus,
+.table-header span:focus,
+.status-edit-row span:focus,
+.info-card h3:focus,
+.info-content p:focus,
+.consigne-content p:focus,
+.modal-content-center h3:focus,
+.form-group-modal label:focus,
+.clickable-member-tag:focus {
+    outline: 2px solid #8fa6ff;
+    border-radius: 4px;
+    outline-offset: 4px;
+}
+
+.btn-add-circle:focus,
+.action-btn:focus,
+.btn-confirm:focus,
+.btn-cancel:focus {
+    outline: 2px solid #8fa6ff;
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   MODE SOMBRE GLOBAL
+   ========================================================== */
+:global(.dark-theme) { background-color: #111827 !important; color: #ffffff !important; }
+:global(.dark-theme .dashboard-layout) { background-color: #111827 !important; color: #ffffff !important; }
+
+:global(.dark-theme aside),
+:global(.dark-theme aside > div) { background-color: #111827 !important; }
+
+:global(.dark-theme .card-container),
+:global(.dark-theme .modal-content-center) { background: #1f2937 !important; border-color: #374151 !important; color: #ffffff !important; }
+
+:global(.dark-theme .info-content),
+:global(.dark-theme .consigne-content) { background: #374151 !important; color: #d1d5db !important;}
+:global(.dark-theme .info-content strong), :global(.dark-theme .date-highlight) { color: #ffffff !important; }
+:global(.dark-theme .clean-list) { color: #d1d5db !important; }
+:global(.dark-theme .consigne-content p),
+:global(.dark-theme .sae-description-block p) { color: #9ca3af !important; }
+:global(.dark-theme .list-separated li) { border-bottom-color: #4b5563 !important;}
+:global(.dark-theme .members-section h4) { border-bottom-color: #4b5563 !important;}
+:global(.dark-theme .status-edit-row) { background: #374151 !important; border-color: #4b5563 !important;}
+
+:global(.dark-theme .members-tags-container) { background: #374151 !important; border-color: #4b5563 !important; }
+:global(.dark-theme .clickable-member-tag) { background: #7f1d1d !important; color: #fca5a5 !important; }
+
+:global(.dark-theme h1), :global(.dark-theme h2), :global(.dark-theme h3), :global(.dark-theme h4), :global(.dark-theme span:not(.tag-filiere):not(.status-badge)) { color: #ffffff !important; }
+:global(.dark-theme input:not([type="checkbox"])), :global(.dark-theme select), :global(.dark-theme textarea) { background-color: #374151 !important; color: #ffffff !important; border-color: #4b5563 !important; }
+:global(.dark-theme select option) { background-color: #374151 !important; color: #ffffff !important; }
+
+:global(.dark-theme .status-default) { background-color: #4b5563 !important; color: #e5e7eb !important; }
+:global(.dark-theme .tag-filiere) { background-color: #a16207 !important; color: #fef08a !important;}
+
+:global(.dark-theme .icon-btn) { color: #ffffff !important; }
+:global(.dark-theme .svg-icon) { filter: brightness(0) invert(1) !important; }
+:global(.dark-theme .user-profile span) { color: #60a5fa !important; }
+:global(.dark-theme img[src*="logo-mmi"]) { content: url("../assets/logo-mmi (1).svg") !important; }
+
+:global(.dark-theme .members-tags-container) { 
+  background: #1f2937; 
+  border-color: #374151; 
+}
+
+:global(.dark-theme .clickable-member-tag) { 
+  background: #374151; 
+  color: #e5e7eb; 
+  border-color: #4b5563; 
+}
+
+:global(.dark-theme .clickable-member-tag:hover) { 
+  background: #7f1d1d !important; 
+  color: #fca5a5 !important; 
+  border-color: #b91c1c !important;
+}
+
+:global(.dark-theme .status-edit-row) { 
+  background: #1f2937 !important; 
+  border-color: #374151 !important;
+}
+:global(.dark-theme .status-edit-row:hover) {
+  border-color: #4b5563 !important;
+}
+
+:global(.dark-theme .input-select-small) {
+  background-color: #374151;
+  color: white;
+  border-color: #4b5563;
+}

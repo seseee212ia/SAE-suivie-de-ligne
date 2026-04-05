@@ -1,0 +1,133 @@
+.dashboard-layout { display: flex; flex-direction: column; width: 100%; height: 100%; background-color: #f3f4f6; color: #111827; font-family: 'Inter', sans-serif; }
+.main-content { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
+
+/* CONTENU PRINCIPAL & FIX OVERFLOW PAGE ENTIERE */
+.content-area { padding: 1.5rem 2rem; overflow-y: auto; overflow-x: hidden; width: 100%; box-sizing: border-box; }
+.page-welcome h1 { margin: 0; font-size: 1.5rem; color: #1f2937; display: flex; align-items: center;}
+.breadcrumb { font-size: 0.9rem; color: #6b7280; font-weight: normal; margin-left: 15px; }
+.divider { border: 0; height: 2px; background: #e5e7eb; margin-top: 1rem; margin-bottom: 2rem; }
+
+/* TIMELINE CALENDRIER SUR PLUSIEURS LIGNES */
+.timeline { margin-bottom: 2rem; width: 100%; }
+.calendar-container { display: flex; flex-direction: column; gap: 2rem; }
+.months-container, .days-container { width: 100%; }
+.months { display: flex; flex-wrap: wrap; column-gap: 2rem; row-gap: 1.5rem; align-items: center; font-weight: 600; color: #9ca3af; font-size: 0.9rem; }
+.month-pill { background: none; border: none; padding: 0.4rem 0.2rem; transition: 0.2s; border-bottom: 2px solid transparent; font-family: inherit; cursor: pointer;}
+.active-month { color: #312e81; border-bottom: 2px solid #312e81; }
+.days { display: flex; flex-wrap: wrap; column-gap: 1.2rem; row-gap: 1rem; align-items: center; color: #6b7280; font-size: 0.9rem; }
+.day-circle { background: none; font-family: inherit; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid transparent; transition: 0.2s; flex-shrink: 0; cursor: pointer;}
+.active-day { color: #312e81; font-weight: bold; border: 2px solid #312e81; background: transparent;}
+
+/* GRILLE PRINCIPALE AVEC MINMAX POUR ÉVITER LE DÉBORDEMENT */
+.dashboard-grid { 
+  display: grid; 
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr); 
+  gap: 2rem; 
+  width: 100%;
+}
+
+/* SAE EN COURS - SWIPE HORIZONTAL (SOURIS) */
+.main-column { min-width: 0; }
+.main-column h2 { font-size: 1.2rem; margin-top: 0; margin-bottom: 1.5rem; }
+.sae-cards-container { 
+  display: flex; 
+  flex-wrap: nowrap; 
+  gap: 1.5rem; 
+  overflow-x: auto; 
+  padding-bottom: 1rem;
+  scrollbar-width: none; 
+  ms-overflow-style: none; 
+  cursor: grab;
+}
+.sae-cards-container::-webkit-scrollbar {
+  display: none; 
+}
+.sae-cards-container.is-dragging {
+  cursor: grabbing;
+}
+.sae-cards-container.is-dragging .sae-card {
+  pointer-events: none; 
+}
+
+.sae-card { 
+  background: white; 
+  border-radius: 12px; 
+  min-width: 240px; 
+  flex-shrink: 0; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+  cursor: pointer; 
+  transition: transform 0.3s; 
+  border: 1px solid #f3f4f6;
+  user-select: none;
+}
+.sae-card:hover { transform: translateY(-5px); }
+.sae-gradient { height: 130px; border-radius: 8px 8px 0 0; }
+.sae-card-body { padding: 1.2rem; }
+.sae-title { margin: 0 0 1rem 0; font-size: 1.1rem; color: #111827;}
+.sae-info { display: flex; justify-content: space-between; color: #6b7280; font-size: 0.85rem; font-weight: 500;}
+.icon { opacity: 0.6; margin-right: 4px;}
+
+/* ANNONCES (Panneau latéral) */
+.side-column { min-width: 0; background: #f8fafc; padding: 1.2rem 1.5rem; border-radius: 16px; border: 1px solid #e5e7eb;}
+.side-column h2 { font-size: 1.2rem; margin-top: 0; margin-bottom: 1.5rem; }
+.annonces-container { display: flex; flex-direction: column; gap: 1rem; }
+.annonce-card { display: flex; gap: 1rem; background: white; padding: 1rem; border-radius: 12px; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+.annonce-card.clickable { cursor: pointer; }
+.annonce-card.clickable:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.annonce-icon { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+.icon-warning { color: #d97706; background: #fef3c7; }
+.icon-info { color: #2563eb; background: #dbeafe; }
+.icon-alert { color: #dc2626; background: #fee2e2; }
+.annonce-content { flex: 1; }
+.annonce-content h4 { margin: 0 0 5px 0; font-size: 0.95rem; color: #1f2937; line-height: 1.3;}
+.annonce-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #6b7280; }
+.sae-ref { font-weight: 600; color: #9ca3af; }
+
+/* ==========================================================
+   MODE SOMBRE GLOBAL ET AMÉLIORÉ
+   ========================================================== */
+:global(.dark-theme) { background-color: #0f172a !important; color: #f8fafc !important; }
+:global(.dark-theme .dashboard-layout) { background-color: #0f172a !important; }
+:global(.dark-theme .top-header) { background: #1e293b !important; border-bottom: 1px solid #334155 !important; }
+:global(.dark-theme .dropdown-filter select) { background: #334155 !important; color: white !important; border-color: #475569 !important;}
+:global(.dark-theme .page-welcome h1), :global(.dark-theme h2), :global(.dark-theme h3), :global(.dark-theme h4) { color: #f8fafc !important; }
+
+/* Amélioration du mode sombre pour les cartes et annonces */
+:global(.dark-theme .sae-card), 
+:global(.dark-theme .popup-menu),
+:global(.dark-theme .modal-content-center) { 
+  background: #1e293b !important; border-color: #334155 !important; color: #ffffff !important; 
+}
+:global(.dark-theme .side-column) { 
+  background-color: #1e293b !important; 
+  border-color: #334155 !important; 
+}
+:global(.dark-theme .annonce-card) { 
+  background-color: #0f172a !important; 
+  border-color: transparent !important; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important; 
+}
+:global(.dark-theme .annonce-card.clickable:hover) {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5) !important; 
+}
+
+:global(.dark-theme .months .month-pill) { color: #94a3b8 !important; }
+:global(.dark-theme .active-month) { color: #60a5fa !important; border-bottom: 2px solid #60a5fa !important; background: transparent !important; }
+:global(.dark-theme .days .day-circle) { color: #cbd5e1 !important; }
+:global(.dark-theme .active-day) { color: #60a5fa !important; border: 2px solid #60a5fa !important; background: transparent !important; }
+
+:global(.dark-theme .sae-title), :global(.dark-theme .annonce-content h4) { color: #f8fafc !important; }
+:global(.dark-theme .sae-info), :global(.dark-theme .annonce-meta), :global(.dark-theme .sae-ref) { color: #94a3b8 !important; }
+:global(.dark-theme .divider) { background-color: #334155 !important; }
+
+/* Icônes et inputs sombres */
+:global(.dark-theme .svg-icon) { filter: brightness(0) invert(1) !important; }
+:global(.dark-theme .feature-item), :global(.dark-theme .notif-item), :global(.dark-theme .action-item) { border-color: #334155 !important; color: #f8fafc !important;}
+:global(.dark-theme .btn-toggle-action:not(.active-zoom):not(.reset-btn)) { background-color: #475569 !important; color: white !important;}
+:global(.dark-theme input:not([type="checkbox"])) { background-color: #334155 !important; color: #f8fafc !important; border-color: #475569 !important; }
+
+/* AJOUTS POUR LES FILTRES (ALIGNEMENT AVEC ADMIN) */
+.filters-toolbar { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+.filter-select { padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid #d1d5db; background: white; color: #374151; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+.filter-select:focus { border-color: #8fa6ff; }
+:global(.dark-theme .filter-select) { background: #334155 !important; color: white !important; border-color: #475569 !important; }

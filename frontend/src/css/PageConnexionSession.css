@@ -1,0 +1,286 @@
+/* ==========================================================
+   STYLE DE BASE (Desktop) - INTACT
+   ========================================================== */
+.login-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f7f6;
+    position: relative;
+}
+
+.back-action {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.btn-retour {
+    background: white;
+    border: 1px solid #e5e5e5;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-retour:hover { 
+    background: #f0f0f0; 
+}
+
+.role-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 50;
+}
+
+.dropdown-btn {
+    background: white;
+    border: 1px solid #e5e5e5;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #333;
+}
+
+.btn-icon { 
+    width: 18px; 
+    height: 18px; 
+    opacity: 0.8; 
+}
+
+.dropdown-menu {
+    position: absolute; 
+    top: 100%; 
+    right: 0; 
+    background: white; 
+    border: 1px solid #e5e5e5;
+    border-radius: 6px; 
+    list-style: none; 
+    padding: 0; 
+    margin: 5px 0 0 0; 
+    width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu li { 
+    padding: 10px 16px; 
+    cursor: pointer; 
+    font-size: 0.9rem; 
+    border-bottom: 1px solid #f0f0f0; 
+}
+
+.dropdown-menu li:hover { 
+    background-color: #f9f9f9; 
+}
+
+.form-container {
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    padding: 50px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.main-title { 
+    color: #7b61ff; 
+    font-size: 2.5rem; 
+    font-weight: 700; 
+    margin-top: 0; 
+    margin-bottom: 15px; 
+}
+
+.subtitle-wrapper { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 15px; 
+    margin-bottom: 30px; 
+}
+
+.line { 
+    flex: 1; 
+    border: none; 
+    border-top: 3px solid #e5e5e5; 
+    max-width: 80px; 
+}
+
+.subtitle { 
+    color: #888; 
+    font-size: 1.2rem; 
+    font-weight: 400; 
+    margin: 0; 
+}
+
+.login-form { 
+    text-align: left; 
+}
+
+.input-group { 
+    margin-bottom: 25px; 
+}
+
+.input-group label { 
+    display: block; 
+    font-size: 1.1rem; 
+    font-weight: 500; 
+    margin-bottom: 10px; 
+    color: #111; 
+}
+
+.input-group input {
+    width: 100%; 
+    padding: 15px; 
+    border: 1px solid #82bda6; 
+    border-radius: 6px;
+    font-size: 1.1rem; 
+    background: transparent; 
+    box-sizing: border-box; 
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus { 
+    border-color: #7b61ff; 
+    outline: none; 
+}
+
+.password-wrapper { 
+    position: relative; 
+}
+
+.toggle-pwd-btn {
+    position: absolute; 
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    background: none;
+    border: none; 
+    cursor: pointer; 
+    padding: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.icon-pwd { 
+    width: 22px; 
+    height: 22px; 
+    transition: opacity 0.3s ease; 
+}
+
+.icon-pwd.is-hidden { 
+    opacity: 0.4; 
+}
+
+.toggle-pwd-btn:hover .icon-pwd { 
+    opacity: 1; 
+}
+
+.submit-btn {
+    width: 100%; 
+    padding: 16px; 
+    background-color: #7b61ff; 
+    color: white; 
+    border: none;
+    font-size: 1.2rem; 
+    font-weight: 500; 
+    cursor: pointer; 
+    border-radius: 6px; 
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover { 
+    background-color: #6a4fe6; 
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C)
+   ========================================== */
+@media (max-width: 768px) {
+    .login-layout {
+        /* On permet le défilement si le clavier du téléphone s'ouvre */
+        height: auto;
+        min-height: 100vh;
+        padding: 80px 0 40px; 
+        align-items: flex-start; /* Aligne vers le haut pour plus de confort */
+    }
+
+    .form-container {
+        padding: 30px 20px; /* Réduit le padding intérieur */
+        width: 90%; /* Garde une marge avec les bords de l'écran */
+        max-width: none;
+    }
+
+    .main-title {
+        font-size: 1.8rem; /* Titre plus adapté au mobile */
+    }
+
+    .subtitle-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .line {
+        max-width: 40px; /* Raccourcit les lignes pour le mobile */
+    }
+
+    /* Repositionnement des boutons Retour et Sélecteur */
+    .back-action, .role-selector {
+        top: 15px;
+    }
+
+    .role-selector {
+        right: 15px;
+    }
+
+    .back-action {
+        left: 15px;
+    }
+
+    /* Optimisation des boutons du haut */
+    .btn-retour, .dropdown-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Ajustement des champs de saisie */
+    .input-group label {
+        font-size: 1rem;
+    }
+
+    .input-group input {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .submit-btn {
+        padding: 14px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Pour les tous petits écrans (ex: iPhone SE) */
+@media (max-width: 380px) {
+    .subtitle-wrapper {
+        gap: 8px;
+    }
+    
+    .line {
+        display: none; /* On cache les lignes si l'écran est trop étroit */
+    }
+}

@@ -1,0 +1,405 @@
+/* style globale pour icones en mode sombre */
+/* Note : Puisque ce style cible la balise <html>, il doit rester global */
+:global(html.dark-theme) .action-icon {
+    filter: brightness(0) invert(0.9);
+}
+
+/* style de highbar */
+.highbar {
+    width: calc(100% - 235px); 
+    left: 235px; 
+    height: 90px;
+    background-color: var(--bg-barres);
+    transition: background-color 0.3s ease;
+    position: fixed;
+    top: 0;
+    z-index: 9999; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.login-btn {
+    background-color: var(--bg-principale);
+    color: var(--texte-principal);
+    border: 1px solid var(--bordure);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    background-color: var(--bg-principale); 
+    color: var(--texte-principal);
+    border: 1px solid var(--bordure); 
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: var(--texte-principal);
+    opacity: 0.6;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-btn:hover {
+    opacity: 0.8;
+}
+
+.icons-container {
+    display: flex;
+    gap: 15px; 
+    align-items: center;
+}
+
+.action-icon {
+    width: 24px; 
+    height: 24px;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+    outline: none; /* Nettoyage du contour par défaut */
+}
+
+/* Focus pour accessibilité sur les icônes */
+.action-icon:focus {
+    outline: 2px solid #8fa6ff;
+    border-radius: 4px;
+}
+
+/* Style du bouton Hamburger */
+.hamburger-btn {
+  display: none; /* Caché sur ordinateur par défaut */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--texte-principal, #2a355c); /* Adapte la couleur à ton thème */
+  padding: 8px;
+  margin-right: 15px;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ==========================================================
+   POP-UPS DISCRETS & MENUS DEROULANTS
+   ========================================================== */
+.relative-wrapper { 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+}
+
+/* Conteneur principal du menu - Rendu plus petit et élégant */
+.dropdown-menu { 
+    position: absolute; 
+    top: calc(100% + 10px); /* Laisse un petit espace sous l'icône */
+    right: 0; 
+    background: var(--bg-principale, #ffffff); 
+    border-radius: 12px; /* Coins doux */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Ombre plus douce et discrète */
+    width: 260px; /* Réduit pour être moins encombrant (au lieu de 320px) */
+    z-index: 200; 
+    padding: 1rem; /* Padding réduit pour plus de compacité */
+    border: 1px solid var(--bordure, #f3f4f6);
+    color: var(--texte-principal);
+    animation: slideDown 0.15s ease-out; /* Animation plus rapide et fluide */
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* En-tête du menu */
+.menu-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid var(--bordure, #f3f4f6); 
+    padding-bottom: 0.6rem; /* Marges réduites */
+    margin-bottom: 0.6rem;
+}
+
+.menu-header h4 { 
+    margin: 0; 
+    font-size: 0.95rem; /* Typographie légèrement plus petite et discrète */
+    color: var(--texte-principal, #111827); 
+    font-weight: 600;
+    outline: none;
+}
+.menu-header h4:focus {
+    color: #8fa6ff;
+}
+
+/* Bouton Fermer stylisé et miniaturisé */
+.close-btn { 
+    background: transparent; 
+    border: none; 
+    font-size: 1.1rem; 
+    cursor: pointer; 
+    color: var(--texte-principal, #6b7280);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    outline: none;
+}
+.close-btn:hover, .close-btn:focus { 
+    background: #f3f4f6; 
+    color: #111827; 
+}
+
+/* ==========================================================
+   ELEMENTS INTERNES (Profil, Accessibilité, Notifications)
+   ========================================================== */
+
+/* Éléments cliquables (Profil, Paramètres) */
+.clickable-text { 
+    cursor: pointer; 
+    font-size: 0.85rem; /* Plus discret */
+    padding: 0.5rem 0.8rem; /* Compacité améliorée */
+    font-weight: 500; 
+    color: #4b5563;
+    border-radius: 6px; 
+    transition: all 0.2s;
+    display: block;
+    margin-bottom: 2px;
+    outline: none;
+}
+.clickable-text:hover, .clickable-text:focus { 
+    background-color: #f0fdf4; 
+    color: #059669; 
+}
+.text-red { color: #ef4444 !important; }
+.text-red:hover, .text-red:focus { background-color: #fef2f2 !important; color: #b91c1c !important; }
+
+/* Éléments Accessibilité */
+.acc-option { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 12px; 
+    font-size: 0.85rem; 
+}
+.acc-option span {
+    outline: none;
+}
+.acc-option span:focus {
+    color: #8fa6ff;
+    font-weight: bold;
+}
+.font-sizing { flex-direction: column; align-items: flex-start; gap: 8px; }
+.font-size-controls { display: flex; gap: 8px; width: 100%; }
+.font-size-controls button { 
+    flex: 1; 
+    padding: 4px; 
+    font-size: 0.85rem;
+    border-radius: 6px; 
+    border: 1px solid var(--bordure); 
+    background: transparent; 
+    color: var(--texte-principal); 
+    cursor: pointer; 
+    outline: none;
+}
+.font-size-controls button:focus {
+    border-color: #8fa6ff;
+    background-color: rgba(143, 166, 255, 0.1);
+}
+.font-size-controls button.active { background: #8fa6ff; color: white; border-color: #8fa6ff; }
+
+/* CORRECTION DU SWITCH (Bouton on/off) */
+.switch { position: relative; display: inline-block; width: 34px; height: 18px; } 
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px; background-color: white; transition: .4s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 50%; }
+input:checked + .slider { background-color: #8fa6ff; }
+input:checked + .slider:before { transform: translateX(16px); }
+input:focus + .slider { outline: 2px solid #8fa6ff; outline-offset: 2px; }
+
+/* Notifications (Sous forme de cartes discrètes) */
+.notif-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem; /* Espace réduit */
+}
+.notif-item { 
+    padding: 0.6rem; /* Plus compact */
+    background: #f9fafb; 
+    border-radius: 6px; /* Coins un peu moins ronds */
+    font-size: 0.8rem; /* Police plus discrète */
+    color: #374151;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    transition: background 0.2s;
+    outline: none;
+}
+.notif-item:hover, .notif-item:focus { background: #e5e7eb; }
+
+/* Style spécifique pour l'avatar SVG */
+.avatar-svg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    outline: none;
+}
+.avatar-svg:hover, .avatar-svg:focus {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+.avatar-svg:focus {
+    outline: 2px solid #8fa6ff;
+    outline-offset: 2px;
+}
+
+/* ==========================================================
+   MODALE GLOBALE MOT DE PASSE (Intacte)
+   ========================================================== */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content-center { background: white; padding: 2.5rem; border-radius: 16px; width: 420px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+.modal-content-center h3 { margin-top: 0; color: #111827; margin-bottom: 1.5rem; font-size: 1.4rem; outline: none;}
+.form-group-modal { margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;}
+.form-group-modal label { font-size: 0.9rem; color: #374151; font-weight: 500;}
+.input-full { width: 100%; padding: 0.8rem 1rem; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; outline: none; transition: border-color 0.2s;}
+.input-full:focus { border-color: #3b82f6; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;}
+.btn-cancel { background: transparent; border: none; color: #6b7280; cursor: pointer; font-weight: 500; padding: 0.6rem 1rem; outline: none;}
+.btn-cancel:hover, .btn-cancel:focus { color: #111827; }
+.btn-confirm { background: #3b82f6; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 500; transition: background 0.2s; outline: none;}
+.btn-confirm:hover, .btn-confirm:focus { background: #2563eb; }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C)
+   ========================================== */
+@media (max-width: 1024px) {
+    .highbar {
+        width: 100%;
+        left: 0;
+        padding: 0 20px;
+    }
+    
+    .hamburger-btn {
+        display: flex; /* Devient visible sur mobile/tablette */
+    }
+    
+    .topbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-input {
+        width: 140px; /* Réduit pour s'adapter */
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    /* NOUVEAU : On décale la recherche vers la gauche ! */
+    .search-container {
+        margin-right: auto; /* Pousse les icônes à droite, ramène la recherche à gauche */
+        margin-left: 15px; /* Petit espace avec le menu hamburger */
+    }
+
+    .user-actions {
+        gap: 10px;
+    }
+    .highbar {
+        padding: 0 15px; /* Libère un peu d'espace */
+    }
+
+    /* FIX POPUP : Centré parfaitement au milieu de l'écran, sans aucun débordement */
+    .dropdown-menu {
+        position: fixed; /* Détache l'élément de son icône */
+        top: 75px; /* S'affiche juste en dessous de la highbar */
+        left: 50%; /* Positionne au milieu... */
+        transform: translateX(-50%); /* ... et le centre parfaitement */
+        width: 90vw; /* 90% de la largeur de l'écran */
+        max-width: 340px; /* Mais pas plus grand que 340px */
+        z-index: 10000; /* Toujours au premier plan */
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container {
+        display: block; /* La barre de recherche reste visible ! */
+        margin-right: auto; /* Maintient la barre décalée à gauche */
+        margin-left: 10px; 
+    }
+    .search-input {
+        width: 100px; /* Ultra compacte pour ne rien casser */
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    .highbar {
+        padding: 0 10px;
+    }
+    .hamburger-btn {
+        margin-right: 5px; /* Gain de place */
+    }
+    .icons-container {
+        gap: 8px; /* On resserre les icônes */
+    }
+    .login-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================================
+   MODE SOMBRE (Adapté aux menus fusionnés)
+   ========================================================== */
+:global(.dark-theme .dropdown-menu), 
+:global(.dark-theme .modal-content-center) { 
+    background: #1f2937; 
+    border-color: #374151; 
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+:global(.dark-theme .menu-header) { border-bottom-color: #374151; }
+:global(.dark-theme .menu-header h4), 
+:global(.dark-theme .modal-content-center h3) { color: #f9fafb; }
+
+:global(.dark-theme .close-btn) { color: #9ca3af; }
+:global(.dark-theme .close-btn:hover), :global(.dark-theme .close-btn:focus) { background: #374151; color: #f9fafb; }
+
+:global(.dark-theme .clickable-text) { color: #d1d5db; }
+:global(.dark-theme .clickable-text:hover), :global(.dark-theme .clickable-text:focus) { background-color: #374151; color: #60a5fa; }
+:global(.dark-theme .text-red:hover), :global(.dark-theme .text-red:focus) { background-color: #7f1d1d !important; color: #fca5a5 !important; }
+
+:global(.dark-theme .notif-item) { background: #374151; color: #d1d5db; }
+:global(.dark-theme .notif-item:hover), :global(.dark-theme .notif-item:focus) { background: #4b5563; }
+
+:global(.dark-theme .input-full) { background: #374151; color: white; border-color: #4b5563; }
+:global(.dark-theme .input-full:focus) { border-color: #60a5fa; }
+
+/* Mode sombre pour l'avatar */
+:global(html.dark-theme) .avatar-svg {
+    filter: brightness(0) invert(0.9);
+}

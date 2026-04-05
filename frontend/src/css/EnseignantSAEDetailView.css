@@ -1,0 +1,231 @@
+/* ==========================================
+   BASE & LAYOUT
+   ========================================== */
+.sae-detail-container { padding: 40px; height: 100%; overflow-y: auto; color: var(--texte-principal); box-sizing: border-box; }
+.page-header { margin-bottom: 30px; }
+.title-section { display: flex; align-items: baseline; gap: 20px; }
+.title-section h2 { margin: 0; font-size: 1.5rem; font-weight: 500; outline: none; }
+.breadcrumb { font-size: 0.9rem; color: #888; outline: none; }
+.separator { border: none; border-top: 1px solid var(--bordure); margin-top: 20px; transition: border-color 0.3s ease; }
+
+.dashboard-grid { display: flex; gap: 30px; align-items: flex-start; }
+.main-column { flex: 2; display: flex; flex-direction: column; gap: 30px; }
+.side-column { flex: 1; min-width: 300px; max-width: 400px; display: flex; flex-direction: column; gap: 30px; }
+.split-row { display: flex; gap: 30px; }
+.split-row > .info-card { flex: 1; }
+
+/* ==========================================
+   CARTES GÉNÉRIQUES & BOUTONS
+   ========================================== */
+.info-card { background-color: var(--bg-principale); border: 1px solid var(--bordure); border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: background-color 0.3s ease, border-color 0.3s ease; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.card-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; outline: none; }
+
+.icon-btn { width: 36px; height: 36px; border-radius: 8px; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.2rem; transition: filter 0.2s; outline: none; }
+.icon-btn:hover { filter: brightness(0.9); }
+.orange-btn { background-color: #f59e0b; color: white; }
+.green-btn { background-color: #d1fae5; color: #059669; }
+.blue-btn { background-color: #dbeafe; color: #2563eb; }
+.small-btn { width: 30px; height: 30px; border-radius: 6px; }
+
+/* ==========================================
+   BANNIÈRE & PHASES
+   ========================================== */
+.banner-card { background-color: var(--bg-principale); border: 1px solid var(--bordure); border-radius: 12px; display: flex; justify-content: space-between; overflow: hidden; position: relative; min-height: 200px; }
+.banner-content { padding: 40px; display: flex; flex-direction: column; align-items: flex-start; z-index: 2; width: 60%; }
+.banner-top-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 15px; }
+.category-tag { padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; outline: none;}
+.sae-main-title { margin: 0 0 30px 0; font-size: 2rem; font-weight: bold; outline: none; }
+.banner-btn { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; outline: none; }
+.banner-btn .icon { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; }
+.banner-visual { position: absolute; right: 0; top: 0; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, #f8fafc); display: flex; justify-content: center; align-items: center; font-size: 5rem; z-index: 1; }
+
+.phases-container { display: flex; gap: 20px; width: 100%; margin-top: 10px; }
+.phase-item { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.phase-name { font-size: 0.8rem; font-weight: 600; outline: none; }
+.progress-bar-bg { width: 100%; height: 8px; background-color: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.phase-percent { font-size: 0.8rem; font-weight: bold; }
+
+/* ==========================================
+   LISTES (Ressources, Annonces, Rendus)
+   ========================================== */
+.item-list { list-style: none; padding: 0; margin: 0; }
+.item-list li { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--bordure); gap: 15px; }
+.item-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.item-icon { font-size: 1.5rem; opacity: 0.7; }
+.item-details { flex: 1; display: flex; flex-direction: column; }
+.item-title { font-weight: 600; font-size: 0.95rem; }
+.item-author { font-size: 0.7rem; color: #aaa; text-transform: uppercase; margin-top: 4px; }
+.item-meta { display: flex; gap: 15px; font-size: 0.8rem; color: #888; }
+
+/* Styles spécifiques icône agrafe (Trombone) */
+.agrafe-btn { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; outline: none; }
+.agrafe-btn .action-icon { filter: opacity(0.5); transition: filter 0.3s ease; }
+.agrafe-btn.unread .action-icon { filter: invert(58%) sepia(87%) saturate(1478%) hue-rotate(345deg) brightness(101%) contrast(93%); }
+.icons-container { display: flex; align-items: center; gap: 5px; }
+
+/* Rendus */
+.rendu-item { justify-content: space-between; }
+.rendu-left, .rendu-right { display: flex; align-items: center; gap: 15px; }
+.file-icon { width: 40px; height: 40px; border: 1px solid var(--bordure); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; }
+.score-badge { background-color: #e5e7eb; color: #4b5563; padding: 6px 12px; border-radius: 6px; font-weight: bold; outline: none; }
+
+/* ==========================================
+   GROUPE DE TRAVAIL & FORMULAIRES
+   ========================================== */
+.groupe-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.form-input { padding: 12px; border: 1px solid var(--bordure); border-radius: 8px; background-color: var(--bg-principale); color: var(--texte-principal); outline: none; width: 100%; box-sizing: border-box; }
+.input-with-btn { display: flex; gap: 10px; align-items: center; }
+.validate-btn { padding: 12px; border: 1px solid var(--bordure); border-radius: 8px; background-color: transparent; color: var(--texte-principal); font-weight: 600; cursor: pointer; transition: background-color 0.2s; width: 100%; outline: none; }
+.validate-btn:hover { background-color: var(--bg-secondaire); }
+.validate-btn.outline { border: 1px solid var(--bordure); margin-top: 20px; }
+
+/* ==========================================
+   COLONNE DROITE & JAUGE
+   ========================================== */
+.desc-text { font-size: 0.9rem; color: #777; line-height: 1.5; margin-bottom: 20px; outline: none; }
+.desc-meta p { margin: 8px 0; font-size: 0.9rem; outline: none; }
+.desc-meta span { color: #8fa6ff; font-weight: 600; }
+
+/* Conteneur circulaire agrandi pour contenir 4 lignes de texte */
+.circular-progress-container { position: relative; width: 220px; height: 220px; margin: 0 auto; outline: none; }
+.progress-ring { transform: rotate(-90deg); }
+.progress-ring-track { stroke: #e5e7eb; }
+.progress-ring-circle { stroke: #f59e0b; stroke-linecap: round; transition: stroke-dashoffset 1s ease-out; }
+
+/* Centrage du texte dans le cercle */
+.progress-text { 
+  position: absolute; top: 0; left: 0; 
+  width: 100%; height: 100%; 
+  display: flex; flex-direction: column; 
+  justify-content: center; align-items: center; 
+  gap: 2px; 
+}
+
+/* Typographie à l'intérieur du cercle */
+.progress-label-top, .progress-label-bottom { font-size: 1rem; color: #888; font-weight: 600; }
+.progress-value-main { font-size: 1.8rem; font-weight: bold; color: #1f2937; margin-bottom: 4px; }
+.progress-value-sub { font-size: 1.6rem; font-weight: bold; color: #1f2937; }
+
+/* Ajustement pour le mode sombre */
+:global(html.dark-theme) .progress-value-main, 
+:global(html.dark-theme) .progress-value-sub { color: #f3f4f6; }
+
+/* ==========================================
+   STYLES DES MODALES 
+   ========================================== */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000; padding: 20px; box-sizing: border-box;
+}
+
+.modal-content {
+  background: var(--bg-principale); color: var(--texte-principal);
+  border-radius: 16px; padding: 30px; position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2); width: 100%;
+}
+.small-modal { max-width: 400px; }
+.medium-modal { max-width: 600px; }
+.annonce-modal { max-width: 500px; padding: 20px; }
+
+.close-btn-black {
+  position: absolute; top: 15px; right: 15px;
+  background: none; border: none; font-size: 1.5rem;
+  cursor: pointer; color: var(--texte-principal); font-weight: bold;
+}
+
+.form-textarea {
+  width: 100%; padding: 12px; border: 1px solid var(--bordure);
+  border-radius: 8px; background: var(--bg-principale); color: var(--texte-principal);
+  outline: none; resize: vertical; box-sizing: border-box; font-family: inherit;
+}
+.hidden-borders { border: none; min-height: 150px; font-size: 1.1rem; resize: none; }
+
+/* Modale Phases */
+.phases-form-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.phase-input-row { display: flex; gap: 10px; align-items: center; }
+.rounded-input { border-radius: 20px; padding: 10px 20px; }
+.phase-actions { display: flex; gap: 10px; }
+
+/* Modale Annonce */
+.annonce-header-modal { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-right: 30px; }
+.annonce-header-modal h4 { margin: 0 0 5px 0; font-size: 1.1rem; }
+.annonce-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
+.send-btn { 
+  background-color: #d1fae5; color: #059669;
+  border: none; border-radius: 12px; width: 50px; height: 50px;
+  display: flex; justify-content: center; align-items: center;
+  cursor: pointer; transition: transform 0.2s;
+}
+.send-btn:hover { transform: scale(1.05); }
+.mt-15 { margin-top: 15px; }
+.mb-10 { margin-bottom: 10px; }
+
+/* ==========================================
+   AJUSTEMENTS MODE SOMBRE (:global)
+   ========================================== */
+:global(html.dark-theme) .progress-ring-track { stroke: #3b3b3b; }
+:global(html.dark-theme) .score-badge { background-color: #3b3b3b; color: #d1d5db; }
+:global(html.dark-theme) .progress-bar-bg { background-color: #3b3b3b; }
+:global(html.dark-theme) .send-btn { background-color: #059669; color: #d1fae5; }
+
+/* ==========================================
+   RESPONSIVE DESIGN (W3C)
+   ========================================== */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        flex-direction: column; /* La colonne de droite passe en dessous */
+    }
+    .side-column {
+        max-width: 100%; /* Prend toute la largeur */
+    }
+}
+
+@media (max-width: 768px) {
+    .split-row {
+        flex-direction: column; /* Empile "Ressources" et "Annonces" */
+    }
+    .banner-card {
+        flex-direction: column;
+    }
+    .banner-content {
+        width: 100%;
+        padding: 20px;
+    }
+    .sae-detail-container {
+        padding: 20px;
+    }
+    .phases-container {
+        flex-direction: column; /* Empile les barres de progression */
+    }
+}
+
+/* ==========================================================
+   STYLES D'ACCESSIBILITÉ (Navigation au clavier)
+   ========================================================== */
+.title-section h2:focus,
+.breadcrumb:focus,
+.card-header h3:focus,
+.desc-text:focus,
+.desc-meta p:focus,
+.sae-main-title:focus,
+.category-tag:focus,
+.phase-name:focus,
+.circular-progress-container:focus,
+.score-badge:focus {
+    outline: 2px solid #8fa6ff;
+    border-radius: 4px;
+    outline-offset: 4px;
+}
+
+.icon-btn:focus,
+.banner-btn:focus,
+.validate-btn:focus,
+.agrafe-btn:focus {
+    outline: 2px solid #8fa6ff;
+    outline-offset: 2px;
+}
