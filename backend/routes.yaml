@@ -24,3 +24,5 @@ image:
     controller: App\Controller\ImageController::i
     methods: GET|POST|HEAD
 
+api_login_check:
+    path: /api/login_check

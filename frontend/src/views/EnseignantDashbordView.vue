@@ -132,9 +132,9 @@ watch(currentDay, (newDay) => {
       <div class="title-section">
         <h2 
           tabindex="0" 
-          @focus="lireAction('Bienvenue Monsieur FDZAFE')"
+          @focus="lireAction('Bienvenue Madame XXXXXX')"
         >
-          Bienvenue Monsieur FDZAFE 👋
+          Bienvenue Madame XXXXXX 👋
         </h2>
         <span 
           class="breadcrumb" 

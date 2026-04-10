@@ -29,7 +29,7 @@ class AppFixtures extends Fixture
         $admin = new Admin();
         $admin->setUser('admin_test');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'password'));
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
         $manager->persist($admin);
 
         $prof = new Enseignants();
@@ -37,17 +37,17 @@ class AppFixtures extends Fixture
         $prof->setNom('NomEns');
         $prof->setPrenom('PrenomEns');
         $prof->setRoles(['ROLE_ENSEIGNANT']);
-        $prof->setPassword($this->passwordHasher->hashPassword($prof, 'password'));
+        $prof->setPassword($this->passwordHasher->hashPassword($prof, 'ens123'));
         $manager->persist($prof);
 
         $etudiant = new Etudiants();
-        $etudiant->setNumEtudiant('12345678');
+        $etudiant->setNumEtudiant('22301234');
         $etudiant->setNom('NomEtu');
         $etudiant->setPrenom('PrenomEtu');
         $etudiant->setPromotion(Promotion::BUT2);
         $etudiant->setSpecialite(Specialite::DEVELOPPEMENT_WEB);
         $etudiant->setRoles(['ROLE_ETUDIANT']);
-        $etudiant->setPassword($this->passwordHasher->hashPassword($etudiant, 'password'));
+        $etudiant->setPassword($this->passwordHasher->hashPassword($etudiant, 'etu123'));
         $manager->persist($etudiant);
 
         $sae = new Sae();

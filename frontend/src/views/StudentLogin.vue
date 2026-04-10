@@ -79,16 +79,17 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user'; // Importation du store utilisateur
 
 const router = useRouter();
 
-// --- VARIABLES DU FORMULAIRE ---
+// VARIABLES DU FORMULAIRE
 const numeroEtudiant = ref('');
 const motDePasse = ref('');
 const showPassword = ref(false);
 const afficherMotDePassePopup = ref(false);
 
-// --- ACCESSIBILITÉ VOCALE ---
+// ACCESSIBILITÉ VOCALE
 const lireTexte = (texte) => {
   if (localStorage.getItem('voix_active') === 'true' && window.speechSynthesis) {
     window.speechSynthesis.cancel();
@@ -108,10 +109,11 @@ const togglePassword = () => {
   lireTexte(showPassword.value ? "Mot de passe affiché en clair" : "Mot de passe masqué");
 };
 
-// --- LOGIQUE DE CONNEXION ÉTUDIANTE ---
-const handleLogin = () => {
+// LOGIQUE DE CONNEXION ÉTUDIANTE (Mise à jour avec API)
+const handleLogin = async () => {
   const regexEtudiant = /^22\d{6}$/;
 
+  // Vérifications locales
   if (!regexEtudiant.test(numeroEtudiant.value)) {
     const msgErreur = "Format invalide. Votre numéro d'étudiant doit comporter exactement 8 chiffres et commencer par 22.";
     alert(msgErreur);
@@ -125,11 +127,44 @@ const handleLogin = () => {
     return;
   }
 
-  lireTexte("Connexion réussie. Redirection vers votre tableau de bord.");
-  router.push('/etudiant/dashboard'); 
+  try {
+    // Appel au backend 
+    const reponse = await fetch('/api/login_check', {
+    method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        // Le backend attend "username" par défaut, on lui envoie le numéro étudiant
+        username: numeroEtudiant.value,
+        password: motDePasse.value
+      })
+    });
+
+    if (!reponse.ok) {
+      // AJOUT DE L'INDICE POUR L'ÉTUDIANT ICI
+      throw new Error("Identifiants incorrects. Veuillez réessayer.\n\n essayez '22301234' avec le mot de passe 'etu123'.");
+    }
+
+    // Récupération et stockage du Token
+    const data = await reponse.json();
+    localStorage.setItem('jwt_token', data.token);
+
+    // Mise à jour du store pour changer le rôle et l'interface globale
+    const userStore = useUserStore();
+    userStore.setRole('etudiant');
+
+    lireTexte("Connexion réussie. Redirection vers votre tableau de bord.");
+    router.push('/student/dashboard'); 
+
+  } catch (error) {
+    alert(error.message);
+    // L'accessibilité vocale lira également l'indice à l'utilisateur !
+    lireTexte("Erreur lors de la connexion. " + error.message);
+  }
 };
 
-// --- GESTION DU MODAL ---
+// GESTION DU MODAL
 const ouvrirModifMotDePasse = () => {
   afficherMotDePassePopup.value = true;
   lireTexte("Fenêtre de réinitialisation du mot de passe ouverte");

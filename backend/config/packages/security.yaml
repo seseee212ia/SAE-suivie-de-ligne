@@ -10,7 +10,6 @@ security:
         app_etudiant_provider:
             entity:
                 class: App\Entity\Etudiants
-                property: numEtudiant
         app_enseignant_provider:
             entity:
                 class: App\Entity\Enseignants

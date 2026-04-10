@@ -75,31 +75,59 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Import de l'outil de navigation
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user'; // N'oublie pas d'importer ton store Pinia !
 
-const router = useRouter(); // Initialisation du routeur
+const router = useRouter(); 
+const userStore = useUserStore(); // Initialisation de Pinia
 const identifiant = ref('');
 const motDePasse = ref('');
 const showPassword = ref(false);
 
-// --- NOUVELLES VARIABLES POUR LE MODAL ---
 const afficherMotDePassePopup = ref(false);
 
 const togglePassword = () => {
   showPassword.value = !showPassword.value;
 };
 
-const handleLogin = () => {
-  // Vérification des identifiants (comme dans ta BDD)
-  if (identifiant.value === 'admin' && motDePasse.value === 'admin123') {
+const handleLogin = async () => {
+  try {
+    // Appel au backend pour vérifier les identifiants
+   const reponse = await fetch('/api/login_check', {
+    method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: identifiant.value, 
+        password: motDePasse.value
+      })
+    });
+
+    // Vérification de la réponse et création de l'erreur avec l'indice
+    if (!reponse.ok) {
+      throw new Error("Identifiants incorrects. Veuillez réessayer.\n\n essayez 'admin_test' avec le mot de passe 'admin123'.");
+    }
+
+    // On extrait les données (le token) de la réponse JSON
+    const data = await reponse.json();
+
+    // On sauvegarde le token dans le navigateur pour s'en souvenir
+    localStorage.setItem('jwt_token', data.token);
+
+    // On met à jour l'interface via Pinia pour dire qu'on est connecté en tant qu'admin
+    userStore.setRole('admin');
+
     // Redirection vers le tableau de bord
     router.push('/admin/dashboard');
-  } else {
-    alert("Identifiants incorrects. Essayez 'admin' et 'admin123'");
+
+  } catch (erreur) {
+    // L'alerte affichera notre message d'erreur avec l'indice personnalisé
+    alert(erreur.message);
   }
 };
 
-// --- NOUVELLES FONCTIONS POUR LE MODAL ---
+// FONCTIONS POUR LE MODAL DE MOT DE PASSE
 const ouvrirModifMotDePasse = () => {
   afficherMotDePassePopup.value = true;
 };

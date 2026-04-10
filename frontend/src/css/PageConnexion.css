@@ -89,6 +89,16 @@
     text-decoration: underline;
 }
 
+/* Ajout d'un focus visuel pour la navigation au clavier (Touche Tab) */
+.main-title:focus,
+.subtitle:focus,
+.role-btn:focus,
+.back-link:focus {
+  outline: 2px solid #8fa6ff;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* ==========================================
    RESPONSIVE DESIGN (W3C)
    ========================================== */
